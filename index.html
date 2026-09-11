@@ -120,11 +120,94 @@ footer{background:var(--verde-oscuro);color:rgba(255,255,255,.75);padding:40px 0
 footer .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
 footer a{color:rgba(255,255,255,.6);}
 
+/* ---------- PROPÓSITO ---------- */
+.proposito{
+  background:linear-gradient(135deg,var(--verde-oscuro) 0%,var(--verde-oscuro-2) 100%);
+  border-radius:28px;color:#fff;padding:54px 48px;position:relative;overflow:hidden;
+}
+.proposito:before{content:"";position:absolute;top:-60px;right:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(198,241,53,.18),transparent 70%);}
+.proposito .tag-eyebrow{color:var(--verde-lima);font-weight:700;font-size:13.5px;text-transform:uppercase;letter-spacing:.6px;}
+.proposito h2{font-size:30px;margin:10px 0 16px;letter-spacing:-.3px;max-width:640px;}
+.proposito p{color:rgba(255,255,255,.82);font-size:15.5px;line-height:1.7;max-width:620px;margin:0 0 20px;}
+.proposito .claim{display:inline-flex;align-items:center;gap:10px;background:rgba(198,241,53,.12);border:1px solid rgba(198,241,53,.35);color:var(--verde-lima);font-weight:700;font-size:14.5px;padding:12px 20px;border-radius:999px;}
+
+/* ---------- 4 PILARES ---------- */
+.pilares-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+.pilar-card{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--radio);padding:24px 20px;text-align:left;transition:transform .2s ease,box-shadow .2s ease;}
+.pilar-card:hover{transform:translateY(-4px);box-shadow:var(--sombra);}
+.pilar-icon{font-size:26px;margin-bottom:12px;}
+.pilar-card h4{margin:0 0 8px;font-size:15.5px;color:var(--verde-oscuro);text-transform:uppercase;letter-spacing:.4px;}
+.pilar-card p{margin:0;font-size:14px;color:var(--texto-suave);line-height:1.55;}
+
+/* ---------- COMPROMISO (stakeholder cards) ---------- */
+.compromiso-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+.compromiso-card{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--radio);padding:24px;display:flex;flex-direction:column;gap:12px;}
+.compromiso-card .cc-emoji{font-size:30px;}
+.compromiso-card h3{margin:0;font-size:16px;color:var(--verde-oscuro);}
+.compromiso-card ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px;}
+.compromiso-card li{font-size:13.5px;color:var(--texto-suave);line-height:1.45;padding-left:16px;position:relative;}
+.compromiso-card li:before{content:"•";position:absolute;left:0;color:var(--naranja);font-weight:800;}
+
+/* ---------- IMPACTO (métricas) ---------- */
+.impacto-wrap{background:var(--verde-oscuro-2);border-radius:28px;padding:48px;}
+.impacto-tag{display:inline-block;background:rgba(255,255,255,.08);color:rgba(255,255,255,.65);font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;margin-bottom:18px;}
+.impacto-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;}
+.impacto-stat{text-align:center;}
+.impacto-stat .num{font-family:'Sora',sans-serif;font-size:30px;font-weight:800;color:var(--verde-lima);}
+.impacto-stat .lbl{font-size:12.5px;color:rgba(255,255,255,.68);margin-top:6px;line-height:1.4;}
+.impacto-foot{color:rgba(255,255,255,.45);font-size:11.5px;margin-top:26px;text-align:center;}
+
+/* ---------- VALOR DEL VIAJE (flujo) ---------- */
+.transparencia-precio{background:var(--crema);border-radius:var(--radio-sm);padding:20px;margin-top:18px;font-size:13.5px;color:var(--texto-suave);line-height:1.6;}
+.valor-flujo{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;align-items:stretch;}
+.valor-step{flex:1 1 150px;background:var(--blanco);border:1px solid var(--linea);border-radius:var(--radio-sm);padding:14px;text-align:center;font-size:12.5px;}
+.valor-step .vs-emoji{font-size:20px;display:block;margin-bottom:6px;}
+.valor-step strong{display:block;color:var(--verde-oscuro);font-size:13px;margin-bottom:3px;}
+.valor-step span{color:var(--texto-suave);}
+.valor-arrow{align-self:center;color:var(--texto-suave);font-size:16px;}
+
+/* ---------- CONDUCTORES PUNTO U (landing) ---------- */
+.conductores-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start;}
+.conductor-badge{display:inline-flex;align-items:center;gap:6px;background:var(--verde-lima);color:var(--verde-oscuro);font-weight:700;font-size:11.5px;padding:5px 11px;border-radius:999px;}
+
+/* ---------- SOSTENIBILIDAD EN VIAJE (app) ---------- */
+.eco-tag{display:flex;align-items:flex-start;gap:10px;background:#EAF6EC;border:1px solid #CFE9D2;border-radius:var(--radio-sm);padding:12px 14px;margin:12px 0;font-size:13px;color:#1F6A3B;line-height:1.5;}
+.eco-tag strong{display:block;font-size:13.5px;margin-bottom:2px;}
+.eco-co2{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;color:#1F6A3B;background:#DDF3DF;padding:4px 10px;border-radius:999px;margin-top:8px;}
+
+/* ---------- ACCESIBILIDAD ---------- */
+.accesibilidad-card{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--radio);padding:30px;display:flex;gap:26px;align-items:center;flex-wrap:wrap;}
+.accesibilidad-icon{font-size:42px;flex:0 0 auto;}
+.accesibilidad-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;flex:1 1 320px;}
+.accesibilidad-list li{font-size:13.5px;color:var(--texto-suave);padding-left:18px;position:relative;}
+.accesibilidad-list li:before{content:"✓";position:absolute;left:0;color:var(--naranja);font-weight:800;}
+
+/* ---------- OPINIÓN / PARTICIPACIÓN ---------- */
+.opinion-card{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--radio);padding:34px;text-align:center;}
+.opinion-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:22px;}
+
+/* ---------- TRANSPARENCIA ---------- */
+.transparencia-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+.transparencia-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;}
+.transparencia-list li{font-size:14px;color:var(--texto-suave);padding-left:22px;position:relative;}
+.transparencia-list li:before{content:"✓";position:absolute;left:0;color:#1F6A3B;font-weight:800;}
+.prototipo-badge{display:inline-flex;align-items:center;gap:8px;background:#FFF6DA;color:#8A6A00;border:1px solid #F0DFA0;font-weight:700;font-size:12.5px;padding:9px 16px;border-radius:999px;}
+.demo-badge-top{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;margin-left:10px;}
+
+/* ---------- DRIVER RESPONSABLE ---------- */
+.driver-responsable-badge{display:inline-flex;align-items:center;gap:5px;background:var(--verde-lima);color:var(--verde-oscuro);font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:999px;margin-left:8px;vertical-align:middle;}
+
 @media(max-width:900px){
   .hero{grid-template-columns:1fr;padding-top:40px;}
   .hero h1{font-size:38px;}
   .grid-3,.grid-2{grid-template-columns:1fr;}
   .nav-links{display:none;}
+  .pilares-grid,.compromiso-grid{grid-template-columns:1fr 1fr;}
+  .impacto-grid{grid-template-columns:repeat(2,1fr);}
+  .conductores-grid,.transparencia-grid{grid-template-columns:1fr;}
+  .proposito{padding:36px 26px;}
+  .impacto-wrap{padding:30px 22px;}
+  .accesibilidad-list{grid-template-columns:1fr;}
 }
 
 /* ---------- APP SHELL ---------- */
@@ -288,10 +371,12 @@ footer a{color:rgba(255,255,255,.6);}
     <div class="container nav-row">
       <div class="brand"><span class="dot"></span>Punto U</div>
       <nav class="nav-links">
+        <a href="#proposito">Propósito</a>
         <a href="#beneficios">Beneficios</a>
-        <a href="#vehiculos">Vehículos</a>
-        <a href="#comparacion">Comparación</a>
+        <a href="#compromiso">Compromiso</a>
+        <a href="#impacto">Impacto</a>
         <a href="#planes">Planes</a>
+        <a href="#transparencia">Transparencia</a>
       </nav>
       <button class="btn btn-primary" onclick="openApp()">Solicitar viaje</button>
     </div>
@@ -316,6 +401,15 @@ footer a{color:rgba(255,255,255,.6);}
     </div>
   </section>
 
+  <section class="block container" id="proposito">
+    <div class="proposito">
+      <div class="tag-eyebrow">Nuestro propósito</div>
+      <h2>Movilidad que genera valor para todos.</h2>
+      <p>En Punto U creemos que movilizarse hacia la universidad debe ser accesible, seguro y sostenible. Nuestro propósito es conectar estudiantes y conductores para crear una movilidad universitaria que genere valor para las personas, las universidades y el planeta.</p>
+      <span class="claim">✦ Movilidad que genera valor para todos</span>
+    </div>
+  </section>
+
   <section class="block container" id="beneficios">
     <div class="section-head">
       <span>Beneficios</span>
@@ -326,6 +420,20 @@ footer a{color:rgba(255,255,255,.6);}
       <div class="card"><div class="benef-icon">⏱</div><h3>Llega a tiempo</h3><p>Vehículos cerca de tu campus todo el día, incluso en horas pico de entrada y salida de clases.</p></div>
       <div class="card"><div class="benef-icon">💳</div><h3>Precio de estudiante</h3><p>Tarifas pensadas para un bolsillo universitario, con planes mensuales que salen más económicos por viaje.</p></div>
       <div class="card"><div class="benef-icon">🛡</div><h3>Conductores verificados</h3><p>Todos los conductores y vehículos pasan por un proceso de verificación antes de unirse a la plataforma.</p></div>
+    </div>
+  </section>
+
+  <section class="block container" id="pilares">
+    <div class="section-head">
+      <span>Nuestros pilares</span>
+      <h2>Los 4 pilares de Punto U</h2>
+      <p>Así entendemos el capitalismo consciente: rentabilidad y propósito avanzando juntos.</p>
+    </div>
+    <div class="pilares-grid">
+      <div class="pilar-card"><div class="pilar-icon">🎯</div><h4>Propósito</h4><p>Movilidad universitaria accesible y segura.</p></div>
+      <div class="pilar-card"><div class="pilar-icon">🤝</div><h4>Personas</h4><p>Generamos valor para estudiantes, conductores y universidades.</p></div>
+      <div class="pilar-card"><div class="pilar-icon">🏘</div><h4>Comunidad</h4><p>Construimos soluciones junto a quienes utilizan nuestro servicio.</p></div>
+      <div class="pilar-card"><div class="pilar-icon">🌱</div><h4>Planeta</h4><p>Promovemos una movilidad compartida y más sostenible.</p></div>
     </div>
   </section>
 
@@ -347,7 +455,75 @@ footer a{color:rgba(255,255,255,.6);}
         <h3>Punto Van</h3>
         <div class="veh-price">$7.500</div>
         <ul class="veh-list"><li>Ideal para viajar en grupo</li><li>Precio compartido más bajo</li><li>Espacio para maletas</li></ul>
+        <div class="eco-tag">🌱 <span><strong>Viaje compartido: menor impacto ambiental.</strong> Al compartir este viaje ayudas a reducir vehículos en circulación.</span></div>
       </div>
+    </div>
+  </section>
+
+  <section class="block container" id="compromiso">
+    <div class="section-head">
+      <span>Nuestro compromiso</span>
+      <h2>Valor para cada grupo de interés</h2>
+      <p>La rentabilidad de Punto U no está peleada con el bienestar de las personas ni del planeta. Así lo llevamos a la práctica.</p>
+    </div>
+    <div class="compromiso-grid">
+      <div class="compromiso-card">
+        <div class="cc-emoji">🎓</div><h3>Estudiantes</h3>
+        <ul>
+          <li>Precios pensados para estudiantes</li>
+          <li>Tarifas transparentes</li>
+          <li>Opciones individuales y compartidas</li>
+          <li>Conductores verificados</li>
+          <li>Acceso a planes mensuales</li>
+        </ul>
+      </div>
+      <div class="compromiso-card">
+        <div class="cc-emoji">🚗</div><h3>Conductores</h3>
+        <ul>
+          <li>Remuneración justa</li>
+          <li>Horarios flexibles</li>
+          <li>Condiciones de trabajo dignas</li>
+          <li>Capacitación y acompañamiento</li>
+          <li>Calificación transparente</li>
+        </ul>
+      </div>
+      <div class="compromiso-card">
+        <div class="cc-emoji">🌱</div><h3>Planeta</h3>
+        <ul>
+          <li>Incentivamos viajes compartidos</li>
+          <li>Reducimos vehículos individuales</li>
+          <li>Priorizamos vans en trayectos grupales</li>
+          <li>Medimos el CO₂ evitado</li>
+          <li>Transición futura a híbridos/eléctricos</li>
+        </ul>
+      </div>
+      <div class="compromiso-card">
+        <div class="cc-emoji">🤝</div><h3>Comunidad</h3>
+        <ul>
+          <li>Alianzas con universidades</li>
+          <li>Trabajo para conductores locales</li>
+          <li>Movilidad para estudiantes con dificultades económicas</li>
+          <li>Encuestas y participación activa</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="block container" id="impacto">
+    <div class="impacto-wrap">
+      <div class="section-head" style="max-width:640px;">
+        <span style="color:var(--verde-lima);">Impacto Punto U</span>
+        <h2 style="color:#fff;">Lo que estamos construyendo juntos</h2>
+      </div>
+      <span class="impacto-tag">📊 Datos demostrativos · métricas de ejemplo</span>
+      <div class="impacto-grid">
+        <div class="impacto-stat"><div class="num" data-target="1250" data-suffix="+">0</div><div class="lbl">Estudiantes movilizados</div></div>
+        <div class="impacto-stat"><div class="num" data-target="85" data-suffix="+">0</div><div class="lbl">Conductores activos</div></div>
+        <div class="impacto-stat"><div class="num" data-target="3" data-suffix="+">0</div><div class="lbl">Universidades aliadas</div></div>
+        <div class="impacto-stat"><div class="num" data-target="18500" data-suffix="+">0</div><div class="lbl">Viajes compartidos</div></div>
+        <div class="impacto-stat"><div class="num" data-target="12.4" data-prefix="-" data-suffix=" ton">0</div><div class="lbl">CO₂ estimadas evitadas</div></div>
+      </div>
+      <div class="impacto-foot">Cifras simuladas con fines de demostración del prototipo. No representan datos reales de operación.</div>
     </div>
   </section>
 
@@ -363,6 +539,47 @@ footer a{color:rgba(255,255,255,.6);}
       <tr><td>Espera promedio</td><td>3–5 min</td><td>8–15 min</td><td>Variable</td></tr>
       <tr><td>Reserva anticipada</td><td>Sí</td><td>Limitado</td><td>No</td></tr>
     </table>
+  </section>
+
+  <section class="block container" id="conductores">
+    <div class="section-head">
+      <span>Conductores Punto U</span>
+      <h2>Bienestar para quienes nos llevan</h2>
+      <p>Un viaje seguro empieza por un conductor bien tratado.</p>
+    </div>
+    <div class="conductores-grid">
+      <div class="card">
+        <ul class="veh-list" style="gap:12px;">
+          <li>Conductores verificados</li>
+          <li>Capacitación continua</li>
+          <li>Sistema de calificación justo</li>
+          <li>Horarios flexibles</li>
+          <li>Información clara sobre cada viaje</li>
+          <li>Reconocimiento a buenos conductores</li>
+        </ul>
+      </div>
+      <div class="card" style="display:flex;flex-direction:column;gap:14px;align-items:flex-start;">
+        <span class="conductor-badge">🏅 Conductor responsable</span>
+        <p style="color:var(--texto-suave);font-size:14.5px;line-height:1.6;margin:0;">Reconocemos con esta insignia a los conductores que cumplen criterios de calificación, puntualidad y buen trato (criterios simulados en este prototipo). Es nuestra forma de valorar el trabajo bien hecho.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block container" id="accesibilidad">
+    <div class="section-head">
+      <span>Inclusión</span>
+      <h2>Movilidad para todos</h2>
+    </div>
+    <div class="accesibilidad-card">
+      <div class="accesibilidad-icon">♿</div>
+      <ul class="accesibilidad-list">
+        <li>Opciones para estudiantes con necesidades de accesibilidad</li>
+        <li>Información clara antes de reservar</li>
+        <li>Posibilidad de solicitar asistencia</li>
+        <li>Diseño accesible y fácil de utilizar</li>
+      </ul>
+    </div>
+    <p style="font-size:12.5px;color:var(--texto-suave);margin-top:12px;">Algunas funciones de asistencia son demostrativas en este prototipo y se activarán progresivamente.</p>
   </section>
 
   <section class="block container" id="planes">
@@ -388,12 +605,75 @@ footer a{color:rgba(255,255,255,.6);}
         <button class="btn btn-primary btn-block" onclick="openApp('planes')">Suscribirme</button>
       </div>
     </div>
+    <div class="transparencia-precio">
+      Tu mensualidad ayuda a sostener la plataforma, remunerar a nuestros conductores y mantener un servicio seguro y confiable.
+      <div style="font-weight:700;color:var(--verde-oscuro);margin-top:14px;">¿A dónde va el valor de tu viaje?</div>
+      <div class="valor-flujo">
+        <div class="valor-step"><span class="vs-emoji">🎓</span><strong>Estudiante</strong><span>Obtiene movilidad accesible</span></div>
+        <div class="valor-arrow">→</div>
+        <div class="valor-step"><span class="vs-emoji">🚗</span><strong>Conductor</strong><span>Recibe remuneración</span></div>
+        <div class="valor-arrow">→</div>
+        <div class="valor-step"><span class="vs-emoji">🏢</span><strong>Punto U</strong><span>Mantiene y mejora la plataforma</span></div>
+        <div class="valor-arrow">→</div>
+        <div class="valor-step"><span class="vs-emoji">🤝</span><strong>Comunidad</strong><span>Recibe beneficios de movilidad</span></div>
+        <div class="valor-arrow">→</div>
+        <div class="valor-step"><span class="vs-emoji">🌱</span><strong>Planeta</strong><span>Se favorecen los viajes compartidos</span></div>
+      </div>
+      <div style="font-size:11.5px;color:var(--texto-suave);margin-top:10px;">Distribución conceptual con fines ilustrativos, sin porcentajes reales.</div>
+    </div>
+  </section>
+
+  <section class="block container" id="opinion">
+    <div class="opinion-card">
+      <span style="color:var(--naranja);font-weight:700;font-size:14px;">Participación</span>
+      <h2 style="font-size:26px;color:var(--verde-oscuro);margin:8px 0 6px;">Tu opinión mueve Punto U</h2>
+      <p style="color:var(--texto-suave);font-size:15px;margin:0;">Punto U mejora con las necesidades reales de sus estudiantes.</p>
+      <div class="opinion-actions">
+        <button class="btn btn-outline" onclick="openFeedback('mejora')">💡 Proponer una mejora</button>
+        <button class="btn btn-outline" onclick="openFeedback('problema')">⚠️ Reportar un problema</button>
+        <button class="btn btn-outline" onclick="openFeedback('calificar')">⭐ Calificar mi experiencia</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="block container" id="transparencia">
+    <div class="section-head">
+      <span>Transparencia</span>
+      <h2>Claridad de principio a fin</h2>
+    </div>
+    <div class="transparencia-grid">
+      <ul class="transparencia-list">
+        <li>Tarifas claras, sin costos ocultos</li>
+        <li>Conductores verificados</li>
+        <li>Información previa al viaje</li>
+        <li>Protección de datos personales</li>
+        <li>Condiciones de servicio visibles</li>
+        <li>Distinción clara entre funciones reales y funciones DEMO</li>
+      </ul>
+      <div class="card" style="display:flex;flex-direction:column;gap:14px;justify-content:center;">
+        <span class="prototipo-badge">🎓 Punto U — Prototipo académico</span>
+        <p style="color:var(--texto-suave);font-size:13.5px;line-height:1.6;margin:0;">Este sitio es un prototipo académico. Las métricas de impacto, los pagos y algunas funcionalidades se presentan en modo demostrativo, sin procesar transacciones ni datos reales.</p>
+      </div>
+    </div>
   </section>
 
   <footer>
-    <div class="container">
-      <div class="brand" style="color:#fff;"><span class="dot"></span>Punto U</div>
-      <div>Modo demo · Sin conexión a pagos reales · <a href="#" onclick="openAdmin();return false;">Panel admin</a></div>
+    <div class="container" style="flex-direction:column;align-items:flex-start;gap:18px;">
+      <div style="display:flex;justify-content:space-between;width:100%;flex-wrap:wrap;gap:14px;">
+        <div>
+          <div class="brand" style="color:#fff;"><span class="dot"></span>Punto U</div>
+          <div style="margin-top:6px;font-weight:600;color:rgba(255,255,255,.85);">Movilidad universitaria con propósito.</div>
+          <div style="margin-top:4px;color:rgba(255,255,255,.55);max-width:360px;">Creamos valor para estudiantes, conductores, universidades y nuestro planeta.</div>
+        </div>
+        <nav style="display:flex;gap:20px;flex-wrap:wrap;">
+          <a href="#proposito">Propósito</a>
+          <a href="#impacto">Impacto</a>
+          <a href="#conductores">Conductores</a>
+          <a href="#compromiso">Sostenibilidad</a>
+          <a href="#transparencia">Transparencia</a>
+        </nav>
+      </div>
+      <div style="width:100%;border-top:1px solid rgba(255,255,255,.12);padding-top:16px;">Modo demo · Sin conexión a pagos reales · <a href="#" onclick="openAdmin();return false;">Panel admin</a></div>
     </div>
   </footer>
 </div>
@@ -498,6 +778,10 @@ footer a{color:rgba(255,255,255,.6);}
   <div class="modal" id="checkout-body"></div>
 </div>
 
+<div class="modal-backdrop hidden" id="feedback-modal">
+  <div class="modal" id="feedback-body"></div>
+</div>
+
 <!-- ================= ADMIN ================= -->
 <div id="admin" class="hidden" style="position:fixed;inset:0;background:var(--crema);z-index:150;overflow:auto;">
   <div class="container" style="padding:40px 24px;">
@@ -550,11 +834,20 @@ const state = {
 };
 
 const DRIVERS = [
-  {name:"Carlos M.", rating:4.9, car:"Toyota Corolla", color:"Blanco", plate:"ABC-123"},
-  {name:"Marta L.", rating:4.8, car:"Chevrolet Spark", color:"Gris", plate:"HJK-556"},
-  {name:"Diego R.", rating:5.0, car:"Renault Duster", color:"Negro", plate:"QWE-980"},
-  {name:"Laura P.", rating:4.7, car:"Kia Soluto", color:"Rojo", plate:"ZXC-341"},
+  {name:"Carlos M.", rating:4.9, car:"Toyota Corolla", color:"Blanco", plate:"ABC-123", responsible:true},
+  {name:"Marta L.", rating:4.8, car:"Chevrolet Spark", color:"Gris", plate:"HJK-556", responsible:true},
+  {name:"Diego R.", rating:5.0, car:"Renault Duster", color:"Negro", plate:"QWE-980", responsible:true},
+  {name:"Laura P.", rating:4.7, car:"Kia Soluto", color:"Rojo", plate:"ZXC-341", responsible:false},
 ];
+/* Insignia "Conductor responsable": simulada, criterio de ejemplo = calificación >= 4.8 */
+
+/* CO2 evitado (estimación demostrativa) según vehículo y km del viaje */
+function co2AvoidedKg(vehicle, km){
+  const distancia = km || state.routeKm || 5;
+  // Estimación simulada: una van compartida evita más emisiones por pasajero que un carro individual.
+  const factor = vehicle==='van' ? 0.9 : 0.35;
+  return Math.max(0.2, (distancia * factor));
+}
 
 const PLANS = {
   uno:{name:"Plan Un Trayecto", price:80000, trips:20},
@@ -823,6 +1116,11 @@ function panelHTML(){
     html += vehicleOptionHTML('carro','🚗','Punto Carro','Hasta 4 pasajeros', carroPrice(), 3);
     html += vehicleOptionHTML('van','🚐','Punto Van','Hasta 7 pasajeros', vanPrice(), 5);
 
+    if(state.selectedVehicle==='van'){
+      html += `<div class="eco-tag">🌱 <span><strong>Viaje compartido: menor impacto ambiental.</strong> Al compartir este viaje ayudas a reducir vehículos en circulación.
+        <div class="eco-co2">🍃 CO₂ estimado evitado: ${co2AvoidedKg('van').toFixed(1)} kg (estimación demostrativa)</div></span></div>`;
+    }
+
     html += `<button class="btn btn-primary btn-block" id="confirm-btn" ${state.selectedVehicle?'':'disabled'} onclick="confirmTrip()">${state.when==='later'?'Programar viaje':'Confirmar viaje'}</button>`;
   } else if(o && !d){
     html += `<div class="msg-info">Escribe tu destino o toca el mapa para elegirlo.</div>`;
@@ -933,7 +1231,7 @@ function driverFound(){
     <div class="driver-card">
       <div class="driver-row">
         <div class="driver-avatar">${state.driver.name[0]}</div>
-        <div><div class="driver-name">${state.driver.name}</div><div class="driver-meta">⭐ ${state.driver.rating} · ${v}</div></div>
+        <div><div class="driver-name">${state.driver.name}${state.driver.responsible?'<span class="driver-responsable-badge">🏅 Responsable</span>':''}</div><div class="driver-meta">⭐ ${state.driver.rating} · ${v}</div></div>
       </div>
       <div class="driver-facts">
         <div><small>Vehículo</small>${state.driver.car}</div>
@@ -1193,13 +1491,91 @@ function openAdmin(){
     <div class="card"><h3>Ingresos (demo)</h3><p style="font-size:26px;font-weight:800;color:var(--verde-oscuro);">${money(revenue)}</p></div>`;
   document.getElementById('admin-drivers').innerHTML = `<div class="grid-2">` + DRIVERS.map(d=>`
     <div class="card" style="display:flex;justify-content:space-between;align-items:center;">
-      <div><strong>${d.name}</strong><div style="color:var(--texto-suave);font-size:13px;">${d.car} · ${d.plate}</div></div>
+      <div><strong>${d.name}${d.responsible?'<span class="driver-responsable-badge">🏅 Responsable</span>':''}</strong><div style="color:var(--texto-suave);font-size:13px;">${d.car} · ${d.plate} · ⭐ ${d.rating}</div></div>
       <span class="pill">Activo</span>
     </div>`).join('') + `</div>`;
   document.getElementById('admin-trips').innerHTML = state.trips.slice(0,8).map(t=>`
     <div class="trip-hist-card"><div class="trip-hist-left"><strong>${t.origin} → ${t.destination}</strong><span>${t.date} · ${t.vehicle} · ${t.driver}</span></div><div>${t.price?money(t.price):'—'}</div></div>`).join('');
 }
 function closeAdmin(){ document.getElementById('admin').classList.add('hidden'); }
+
+/* ================= IMPACTO — animación de contadores (métricas de demostración) ================= */
+function animateImpactNumbers(){
+  const nums = document.querySelectorAll('#impacto .num');
+  nums.forEach(el=>{
+    const target = parseFloat(el.getAttribute('data-target'));
+    const prefix = el.getAttribute('data-prefix') || '';
+    const suffix = el.getAttribute('data-suffix') || '';
+    const isDecimal = String(target).includes('.');
+    const duration = 1400;
+    const start = performance.now();
+    function step(now){
+      const p = Math.min(1, (now-start)/duration);
+      const eased = 1 - Math.pow(1-p, 3);
+      const val = target * eased;
+      el.textContent = prefix + (isDecimal ? val.toFixed(1) : Math.round(val).toLocaleString('es-CO')) + suffix;
+      if(p<1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  });
+}
+const impactoSection = document.getElementById('impacto');
+if(impactoSection && 'IntersectionObserver' in window){
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ animateImpactNumbers(); io.disconnect(); }
+    });
+  },{threshold:0.35});
+  io.observe(impactoSection);
+} else if(impactoSection){
+  animateImpactNumbers();
+}
+
+/* ================= TU OPINIÓN MUEVE PUNTO U (demo) ================= */
+function openFeedback(type){
+  const cfg = {
+    mejora:{title:'Proponer una mejora', icon:'💡', placeholder:'Cuéntanos qué te gustaría que mejoráramos...'},
+    problema:{title:'Reportar un problema', icon:'⚠️', placeholder:'Describe el problema que encontraste...'},
+    calificar:{title:'Calificar mi experiencia', icon:'⭐', placeholder:'¿Qué tal estuvo tu experiencia con Punto U?'}
+  }[type];
+  document.getElementById('feedback-modal').classList.remove('hidden');
+  document.getElementById('feedback-body').innerHTML = `
+    <div class="stripe-badge">${cfg.icon} Formulario DEMO · no se envía a ningún servidor</div>
+    <h3>${cfg.title}</h3>
+    <p class="sub">Punto U mejora con las necesidades reales de sus estudiantes.</p>
+    ${type==='calificar' ? `
+      <div class="field"><label>Tu calificación</label>
+        <div style="display:flex;gap:8px;font-size:24px;" id="star-row">
+          ${[1,2,3,4,5].map(i=>`<span style="cursor:pointer;" onclick="setStarRating(${i})" id="star-${i}">☆</span>`).join('')}
+        </div>
+      </div>` : ''}
+    <div class="field"><label>Mensaje</label><div class="field-input"><input id="feedback-text" placeholder="${cfg.placeholder}"></div></div>
+    <div style="display:flex;gap:10px;">
+      <button class="btn btn-outline" style="flex:1;" onclick="closeFeedback()">Cancelar</button>
+      <button class="btn btn-primary" style="flex:1;" onclick="submitFeedback('${type}')">Enviar</button>
+    </div>`;
+}
+let feedbackStars = 0;
+function setStarRating(n){
+  feedbackStars = n;
+  for(let i=1;i<=5;i++){
+    const el = document.getElementById('star-'+i);
+    if(el) el.textContent = i<=n ? '★' : '☆';
+  }
+}
+function submitFeedback(type){
+  document.getElementById('feedback-body').innerHTML = `
+    <div style="text-align:center;padding:10px 0;">
+      <div style="font-size:48px;">✅</div>
+      <h3>¡Gracias por tu aporte!</h3>
+      <p class="sub">Este es un flujo de demostración: en producción tu mensaje llegaría al equipo de Punto U.</p>
+      <button class="btn btn-primary btn-block" onclick="closeFeedback()">Cerrar</button>
+    </div>`;
+}
+function closeFeedback(){
+  document.getElementById('feedback-modal').classList.add('hidden');
+  feedbackStars = 0;
+}
 </script>
 </body>
 </html>
