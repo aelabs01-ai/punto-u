@@ -1465,13 +1465,27 @@ function localTravelReply(message){
   const text = message.toLocaleLowerCase('es-CO');
   const context = tripContext();
   const driver = context.driver;
+  const eta = document.getElementById('eta-text')?.textContent || 'pocos minutos';
+  const pickupUpdate = `${driver.name} está en camino hacia “${context.origin}”; la app muestra ${eta} y la placa es ${driver.plate}.`;
+  const calculation = text.match(/^\s*(?:cu[aá]nto es\s*)?(-?\d+(?:[.,]\d+)?)\s*(\+|m[aá]s|menos|-|x|×|\*|por|\/|÷|dividido(?:\s+entre)?)\s*(-?\d+(?:[.,]\d+)?)\s*\??\s*$/i);
+  if(calculation){
+    const a = Number(calculation[1].replace(',','.'));
+    const b = Number(calculation[3].replace(',','.'));
+    const operator = calculation[2];
+    let result;
+    if(/\+|m[aá]s/i.test(operator)) result = a+b;
+    else if(/menos|-/.test(operator)) result = a-b;
+    else if(/x|×|\*|por/i.test(operator)) result = a*b;
+    else if(b !== 0) result = a/b;
+    const answer = result === undefined ? 'No se puede dividir entre cero' : `${a} ${operator} ${b} = ${Number(result.toFixed(4))}`;
+    return `${answer}. Sobre tu recogida: ${pickupUpdate}`;
+  }
   if(/hola|buenas|buenos d[ií]as|buenas tardes|buenas noches/.test(text)){
     return `¡Hola! Estoy aquí para ayudarte con el viaje de ${driver.name}. ¿Quieres consultar el tiempo de llegada, la placa o el punto de recogida?`;
   }
-  if(/cu[aá]nto falta|tiempo|demora|llega|d[oó]nde (est[aá]|va)|ubicaci[oó]n/.test(text)){
+  if(/cu[aá]nto falta|tiempo|demora|llega|llegas|vienes|ya vas|cerca|distancia|d[oó]nde (est[aá]|va)|ubicaci[oó]n/.test(text)){
     if(state.tripStatus === 'DRIVER_ARRIVED') return `${driver.name} ya llegó al punto de recogida. Busca el ${driver.vehicle} ${driver.color}, placa ${driver.plate}.`;
     if(state.tripStatus === 'TRIP_STARTED') return `El viaje está en curso hacia ${context.destination}. Puedes seguir la ubicación directamente en el mapa.`;
-    const eta = document.getElementById('eta-text')?.textContent || 'pocos minutos';
     return `${driver.name} está en camino y la llegada estimada que muestra el viaje es ${eta}. Puedes seguir el vehículo en el mapa.`;
   }
   if(/placa|carro|veh[ií]culo|color|van/.test(text)){
@@ -1495,7 +1509,10 @@ function localTravelReply(message){
   if(/ya estoy|estoy esperando|llegu[eé]/.test(text)){
     return `Tu aviso quedó registrado en el chat del viaje. Mantente atento al ${driver.vehicle} ${driver.color}, placa ${driver.plate}, en “${context.origin}”.`;
   }
-  return 'Puedo ayudarte con información concreta de este viaje: ubicación y tiempo de llegada, conductor, vehículo, placa, recogida, destino, pago o cancelación. Dime cuál necesitas revisar.';
+  if(/gracias|listo|vale|bueno|ok(?:ay)?/.test(text)){
+    return `¡Con gusto! ${pickupUpdate}`;
+  }
+  return `Entendí tu mensaje: “${message.slice(0,90)}”. No tengo un dato exacto sobre eso, pero sí puedo mantenerte al tanto de la recogida: ${pickupUpdate}`;
 }
 
 async function sendChatMessage(event){
