@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Punto U — Movilidad universitaria</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+:root{
+  --verde-oscuro:#0F2E22;
+  --verde-oscuro-2:#153B2B;
+  --verde-lima:#C6F135;
+  --crema:#F6F1E1;
+  --blanco:#FFFFFF;
+  --naranja:#FF6A2B;
+  --texto:#122019;
+  --texto-suave:#5A6B62;
+  --linea:#E4E0D2;
+  --radio:18px;
+  --radio-sm:12px;
+  --sombra:0 10px 30px rgba(15,46,34,.12);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:'Inter',sans-serif;
+  color:var(--texto);
+  background:var(--crema);
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4,.brand{font-family:'Sora',sans-serif;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;}
+input,select{font-family:inherit;}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+.container{max-width:1180px;margin:0 auto;padding:0 24px;}
+.hidden{display:none !important;}
+
+/* ---------- LANDING ---------- */
+#landing-header{
+  position:sticky;top:0;z-index:40;
+  background:rgba(246,241,225,.9);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--linea);
+}
+.nav-row{display:flex;align-items:center;justify-content:space-between;height:72px;}
+.brand{font-weight:800;font-size:22px;color:var(--verde-oscuro);display:flex;align-items:center;gap:8px;}
+.brand .dot{width:10px;height:10px;border-radius:50%;background:var(--naranja);display:inline-block;}
+.nav-links{display:flex;gap:28px;align-items:center;}
+.nav-links a{font-size:14.5px;font-weight:600;color:var(--texto-suave);}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px 22px;border-radius:999px;font-weight:700;font-size:14.5px;
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.btn:active{transform:scale(.97);}
+.btn-primary{background:var(--naranja);color:var(--blanco);box-shadow:0 8px 20px rgba(255,106,43,.35);}
+.btn-primary:hover{box-shadow:0 10px 26px rgba(255,106,43,.45);}
+.btn-dark{background:var(--verde-oscuro);color:var(--blanco);}
+.btn-lime{background:var(--verde-lima);color:var(--verde-oscuro);}
+.btn-outline{background:transparent;border:1.5px solid var(--verde-oscuro);color:var(--verde-oscuro);}
+.btn-ghost{background:var(--blanco);color:var(--verde-oscuro);border:1px solid var(--linea);}
+.btn-block{width:100%;}
+.btn:disabled{opacity:.5;cursor:not-allowed;}
+
+.hero{padding:88px 0 64px;display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center;}
+.eyebrow-free{color:var(--naranja);font-weight:700;font-size:14px;margin-bottom:14px;}
+.hero h1{font-size:52px;line-height:1.06;margin:0 0 20px;color:var(--verde-oscuro);letter-spacing:-.5px;}
+.hero p{font-size:17px;color:var(--texto-suave);max-width:460px;margin:0 0 30px;line-height:1.6;}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
+.hero-visual{
+  background:var(--verde-oscuro);border-radius:28px;padding:22px;position:relative;
+  box-shadow:var(--sombra);min-height:420px;overflow:hidden;
+}
+.hero-map-frame{border-radius:18px;overflow:hidden;height:280px;background:#0b241a;position:relative;}
+.hero-card{
+  background:var(--blanco);border-radius:16px;padding:16px 18px;margin-top:14px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.hero-card small{color:var(--texto-suave);display:block;font-size:12px;margin-bottom:2px;}
+.hero-card strong{font-size:15px;}
+.pill{background:var(--verde-lima);color:var(--verde-oscuro);font-weight:700;font-size:12.5px;padding:6px 12px;border-radius:999px;}
+
+section.block{padding:70px 0;}
+.section-head{max-width:560px;margin:0 0 40px;}
+.section-head span{color:var(--naranja);font-weight:700;font-size:14px;}
+.section-head h2{font-size:34px;color:var(--verde-oscuro);margin:8px 0 10px;letter-spacing:-.3px;}
+.section-head p{color:var(--texto-suave);font-size:15.5px;line-height:1.6;}
+
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;}
+.card{background:var(--blanco);border-radius:var(--radio);padding:26px;border:1px solid var(--linea);}
+.benef-icon{width:44px;height:44px;border-radius:12px;background:var(--verde-oscuro);color:var(--verde-lima);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:16px;}
+.card h3{margin:0 0 8px;font-size:17px;color:var(--verde-oscuro);}
+.card p{margin:0;color:var(--texto-suave);font-size:14.5px;line-height:1.55;}
+
+.vehicle-card{display:flex;flex-direction:column;gap:14px;}
+.vehicle-top{display:flex;justify-content:space-between;align-items:flex-start;}
+.veh-emoji{font-size:34px;}
+.veh-tag{font-size:12.5px;font-weight:700;color:var(--verde-oscuro);background:var(--crema);padding:4px 10px;border-radius:999px;}
+.veh-price{font-size:26px;font-weight:800;color:var(--verde-oscuro);}
+.veh-list{list-style:none;margin:0;padding:0;font-size:14px;color:var(--texto-suave);display:flex;flex-direction:column;gap:6px;}
+.veh-list li:before{content:"✓ ";color:var(--naranja);font-weight:800;}
+
+.compare-table{width:100%;border-collapse:collapse;background:var(--blanco);border-radius:var(--radio);overflow:hidden;border:1px solid var(--linea);}
+.compare-table th,.compare-table td{padding:16px 20px;text-align:left;font-size:14.5px;border-bottom:1px solid var(--linea);}
+.compare-table th{background:var(--verde-oscuro);color:var(--blanco);font-family:'Sora',sans-serif;font-weight:600;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td:first-child{color:var(--texto-suave);}
+
+.plan-card{position:relative;display:flex;flex-direction:column;gap:16px;border:1px solid var(--linea);}
+.plan-card.featured{border:2px solid var(--naranja);}
+.plan-badge{position:absolute;top:-13px;right:24px;background:var(--naranja);color:#fff;font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;}
+.plan-price{font-size:32px;font-weight:800;color:var(--verde-oscuro);}
+.plan-price span{font-size:14px;font-weight:500;color:var(--texto-suave);}
+
+footer{background:var(--verde-oscuro);color:rgba(255,255,255,.75);padding:40px 0;font-size:13.5px;}
+footer .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+footer a{color:rgba(255,255,255,.6);}
+
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;padding-top:40px;}
+  .hero h1{font-size:38px;}
+  .grid-3,.grid-2{grid-template-columns:1fr;}
+  .nav-links{display:none;}
+}
+
+/* ---------- APP SHELL ---------- */
+#app{position:fixed;inset:0;background:var(--crema);z-index:100;display:none;flex-direction:column;}
+#app.active{display:flex;}
+.app-topbar{
+  height:66px;flex:0 0 auto;background:var(--verde-oscuro);display:flex;align-items:center;
+  justify-content:space-between;padding:0 22px;color:#fff;
+}
+.app-topbar .brand{color:#fff;}
+.app-topbar .brand .dot{background:var(--verde-lima);}
+.app-tabs{display:flex;gap:6px;}
+.app-tab{padding:10px 16px;border-radius:999px;font-size:14px;font-weight:600;color:rgba(255,255,255,.65);}
+.app-tab.active{background:rgba(255,255,255,.12);color:#fff;}
+.app-user{display:flex;align-items:center;gap:10px;font-size:13.5px;}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--verde-lima);color:var(--verde-oscuro);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;}
+
+.app-body{flex:1 1 auto;position:relative;overflow:hidden;display:flex;}
+.app-screen{position:absolute;inset:0;display:none;overflow:auto;}
+.app-screen.active{display:block;}
+
+/* dashboard split */
+#screen-inicio.active{display:flex;}
+.map-pane{flex:1 1 60%;position:relative;background:#0b241a;}
+#map{position:absolute;inset:0;}
+.map-badge{position:absolute;top:16px;left:16px;background:#fff;padding:8px 14px;border-radius:999px;font-size:12.5px;font-weight:700;box-shadow:var(--sombra);z-index:5;display:flex;align-items:center;gap:6px;}
+.map-badge .dot-blue{width:9px;height:9px;border-radius:50%;background:#2A7BE0;}
+.locate-btn{position:absolute;bottom:20px;right:16px;background:#fff;width:44px;height:44px;border-radius:12px;box-shadow:var(--sombra);display:flex;align-items:center;justify-content:center;font-size:18px;z-index:5;}
+
+.panel-pane{width:400px;flex:0 0 400px;background:var(--blanco);border-left:1px solid var(--linea);padding:26px;overflow-y:auto;}
+.panel-title{font-size:20px;color:var(--verde-oscuro);margin:0 0 20px;}
+.field{margin-bottom:16px;}
+.field label{display:block;font-size:12.5px;font-weight:700;color:var(--texto-suave);margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px;}
+.field-input{
+  display:flex;align-items:center;gap:10px;border:1px solid var(--linea);border-radius:var(--radio-sm);
+  padding:13px 14px;background:var(--crema);font-size:14.5px;
+}
+.field-input input{background:transparent;border:none;outline:none;width:100%;font-size:14.5px;color:var(--texto);}
+.field-input.origin .dot-blue{width:9px;height:9px;border-radius:50%;background:#2A7BE0;flex:0 0 auto;}
+.field-input.dest .dot-red{width:9px;height:9px;border-radius:50%;background:var(--naranja);flex:0 0 auto;}
+.suggestions{border:1px solid var(--linea);border-top:none;border-radius:0 0 var(--radio-sm) var(--radio-sm);background:#fff;max-height:180px;overflow:auto;margin-top:-14px;position:relative;z-index:3;}
+.suggestions div{padding:11px 14px;font-size:13.5px;border-top:1px solid var(--linea);}
+.suggestions div:hover{background:var(--crema);}
+
+.trip-summary{background:var(--crema);border-radius:var(--radio-sm);padding:16px;margin:14px 0;}
+.trip-summary .row{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px;color:var(--texto-suave);}
+.trip-summary .row strong{color:var(--verde-oscuro);}
+.trip-summary .price{font-size:24px;font-weight:800;color:var(--verde-oscuro);margin-top:6px;}
+
+.veh-option{
+  display:flex;align-items:center;gap:14px;border:1.5px solid var(--linea);border-radius:var(--radio-sm);
+  padding:14px;margin-bottom:12px;transition:.15s;
+}
+.veh-option.selected{border-color:var(--naranja);background:#FFF4EC;}
+.veh-option .veh-emoji{font-size:26px;}
+.veh-option .veh-meta{flex:1;}
+.veh-option .veh-meta strong{display:block;font-size:14.5px;color:var(--verde-oscuro);}
+.veh-option .veh-meta span{font-size:12.5px;color:var(--texto-suave);}
+.veh-option .veh-cost{text-align:right;}
+.veh-option .veh-cost strong{display:block;font-size:15px;color:var(--verde-oscuro);}
+.veh-option .veh-cost span{font-size:11.5px;color:var(--texto-suave);}
+
+.when-toggle{display:flex;gap:8px;margin-bottom:14px;}
+.when-toggle button{flex:1;padding:10px;border-radius:var(--radio-sm);border:1.5px solid var(--linea);font-size:13.5px;font-weight:700;color:var(--texto-suave);}
+.when-toggle button.active{border-color:var(--verde-oscuro);background:var(--verde-oscuro);color:#fff;}
+
+.msg-error{background:#FFECE5;color:#B34212;border-radius:10px;padding:11px 14px;font-size:13.5px;margin:10px 0;}
+.msg-info{background:#EAF6EC;color:#1F6A3B;border-radius:10px;padding:11px 14px;font-size:13.5px;margin:10px 0;}
+
+/* searching / driver found / tracking overlay */
+.overlay-screen{position:absolute;inset:0;background:var(--blanco);display:flex;flex-direction:column;z-index:20;}
+.overlay-screen .top{padding:18px 22px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--linea);}
+.back-btn{width:36px;height:36px;border-radius:50%;background:var(--crema);display:flex;align-items:center;justify-content:center;font-size:16px;}
+.searching-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;}
+.spinner{width:64px;height:64px;border-radius:50%;border:5px solid var(--linea);border-top-color:var(--naranja);animation:spin 1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.pulse-dot{width:16px;height:16px;border-radius:50%;background:var(--verde-lima);animation:pulse 1.4s infinite;}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(198,241,53,.6);}70%{box-shadow:0 0 0 22px rgba(198,241,53,0);}100%{box-shadow:0 0 0 0 rgba(198,241,53,0);}}
+
+.driver-card{background:var(--crema);border-radius:var(--radio);padding:22px;margin:20px;}
+.driver-row{display:flex;align-items:center;gap:14px;margin-bottom:16px;}
+.driver-avatar{width:56px;height:56px;border-radius:50%;background:var(--verde-oscuro);color:var(--verde-lima);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;}
+.driver-name{font-size:16px;font-weight:700;color:var(--verde-oscuro);}
+.driver-meta{font-size:13px;color:var(--texto-suave);}
+.driver-facts{display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:13.5px;}
+.driver-facts div{background:#fff;border-radius:10px;padding:10px 12px;}
+.driver-facts small{display:block;color:var(--texto-suave);font-size:11.5px;text-transform:uppercase;}
+
+.tracking-map-wrap{flex:1;position:relative;}
+#track-map{position:absolute;inset:0;}
+.tracking-card{background:var(--blanco);border-radius:22px 22px 0 0;box-shadow:0 -12px 30px rgba(0,0,0,.1);padding:22px;position:relative;z-index:6;}
+.eta-badge{background:var(--verde-oscuro);color:#fff;font-size:22px;font-weight:800;padding:8px 16px;border-radius:12px;display:inline-block;}
+.status-line{font-size:13.5px;color:var(--texto-suave);margin:10px 0 16px;}
+.track-actions{display:flex;gap:10px;margin-top:16px;}
+
+/* Planes / perfil / viajes screens (list style, full width) */
+.subpage{padding:34px 0 60px;max-width:960px;margin:0 auto;}
+.subpage h2{font-size:26px;color:var(--verde-oscuro);margin:0 0 6px;}
+.subpage p.sub{color:var(--texto-suave);font-size:14.5px;margin:0 0 28px;}
+
+.plan-current-card{background:var(--verde-oscuro);color:#fff;border-radius:var(--radio);padding:26px;display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;flex-wrap:wrap;gap:16px;}
+.plan-current-card .big{font-size:24px;font-weight:800;}
+.plan-current-card small{opacity:.7;font-size:12.5px;text-transform:uppercase;}
+
+.profile-card{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--radio);padding:26px;margin-bottom:20px;}
+.profile-row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--linea);font-size:14.5px;}
+.profile-row:last-child{border-bottom:none;}
+.profile-row span:first-child{color:var(--texto-suave);}
+.profile-row span:last-child{font-weight:600;color:var(--verde-oscuro);}
+.profile-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;}
+
+.trip-hist-card{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--radio-sm);padding:18px 20px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:10px;}
+.trip-hist-left strong{display:block;color:var(--verde-oscuro);font-size:14.5px;}
+.trip-hist-left span{font-size:12.5px;color:var(--texto-suave);}
+.trip-status-tag{font-size:11.5px;font-weight:700;padding:5px 10px;border-radius:999px;}
+.tag-completed{background:#EAF6EC;color:#1F6A3B;}
+.tag-cancelled{background:#FFECE5;color:#B34212;}
+.tag-active{background:#FFF6DA;color:#8A6A00;}
+
+/* mobile bottom nav */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--linea);z-index:110;padding:8px 4px calc(8px + env(safe-area-inset-bottom));}
+.bottom-nav .row{display:flex;justify-content:space-around;}
+.bn-item{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;color:var(--texto-suave);font-weight:600;padding:4px 10px;}
+.bn-item.active{color:var(--naranja);}
+.bn-item .ic{font-size:19px;}
+
+/* modal */
+.modal-backdrop{position:fixed;inset:0;background:rgba(15,46,34,.55);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;}
+.modal{background:#fff;border-radius:20px;padding:30px;max-width:420px;width:100%;max-height:90vh;overflow:auto;}
+.modal h3{margin:0 0 6px;color:var(--verde-oscuro);font-size:20px;}
+.modal p.sub{color:var(--texto-suave);font-size:13.5px;margin:0 0 20px;}
+.tab-switch{display:flex;gap:8px;margin-bottom:20px;background:var(--crema);border-radius:999px;padding:4px;}
+.tab-switch button{flex:1;padding:9px;border-radius:999px;font-size:13.5px;font-weight:700;color:var(--texto-suave);}
+.tab-switch button.active{background:var(--verde-oscuro);color:#fff;}
+.stripe-mock{border:1px solid var(--linea);border-radius:12px;padding:16px;margin:16px 0;background:#FAFAF6;}
+.stripe-badge{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--texto-suave);margin-bottom:12px;}
+.stripe-badge b{color:#635BFF;}
+
+@media(max-width:860px){
+  .panel-pane{display:none;}
+  #screen-inicio .map-pane{flex:1 1 100%;}
+  .sheet-panel{
+    position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:22px 22px 0 0;
+    box-shadow:0 -12px 30px rgba(0,0,0,.12);max-height:80%;overflow-y:auto;padding:20px;
+    transform:translateY(0);transition:transform .25s ease;z-index:8;
+  }
+  .sheet-handle{width:40px;height:5px;background:var(--linea);border-radius:99px;margin:0 auto 14px;}
+  .bottom-nav{display:block;}
+  .app-tabs{display:none;}
+  .app-body{padding-bottom:64px;}
+  .grid-3,.grid-2{grid-template-columns:1fr;}
+  .subpage{padding:22px 16px 90px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= LANDING ================= -->
+<div id="landing">
+  <header id="landing-header">
+    <div class="container nav-row">
+      <div class="brand"><span class="dot"></span>Punto U</div>
+      <nav class="nav-links">
+        <a href="#beneficios">Beneficios</a>
+        <a href="#vehiculos">Vehículos</a>
+        <a href="#comparacion">Comparación</a>
+        <a href="#planes">Planes</a>
+      </nav>
+      <button class="btn btn-primary" onclick="openApp()">Solicitar viaje</button>
+    </div>
+  </header>
+
+  <section class="container hero">
+    <div>
+      <div class="eyebrow-free">Movilidad para tu universidad</div>
+      <h1>Llega a clase sin depender de nadie más.</h1>
+      <p>Punto U conecta a estudiantes con carros y vans confiables cerca de tu campus. Pide un viaje al instante o suscríbete a un plan mensual y olvídate de cuadrar transporte cada día.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="openApp()">Solicitar viaje</button>
+        <button class="btn btn-outline" onclick="document.getElementById('planes').scrollIntoView({behavior:'smooth'})">Ver planes</button>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-map-frame" id="hero-map"></div>
+      <div class="hero-card">
+        <div><small>Universidad Icesi</small><strong>8.4 km · 23 min</strong></div>
+        <span class="pill">$12.500</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="block container" id="beneficios">
+    <div class="section-head">
+      <span>Beneficios</span>
+      <h2>Pensado para el ritmo de un estudiante</h2>
+      <p>Nada de esperar buses ni de cuadrar aventones. Punto U está diseñado para tus horarios, tu presupuesto y tu campus.</p>
+    </div>
+    <div class="grid-3">
+      <div class="card"><div class="benef-icon">⏱</div><h3>Llega a tiempo</h3><p>Vehículos cerca de tu campus todo el día, incluso en horas pico de entrada y salida de clases.</p></div>
+      <div class="card"><div class="benef-icon">💳</div><h3>Precio de estudiante</h3><p>Tarifas pensadas para un bolsillo universitario, con planes mensuales que salen más económicos por viaje.</p></div>
+      <div class="card"><div class="benef-icon">🛡</div><h3>Conductores verificados</h3><p>Todos los conductores y vehículos pasan por un proceso de verificación antes de unirse a la plataforma.</p></div>
+    </div>
+  </section>
+
+  <section class="block container" id="vehiculos" style="background:transparent;">
+    <div class="section-head">
+      <span>Vehículos</span>
+      <h2>Elige cómo te mueves</h2>
+      <p>Viaja solo o en grupo con tus compañeros de carrera.</p>
+    </div>
+    <div class="grid-2">
+      <div class="card vehicle-card">
+        <div class="vehicle-top"><div class="veh-emoji">🚗</div><span class="veh-tag">Hasta 4 pasajeros</span></div>
+        <h3>Punto Carro</h3>
+        <div class="veh-price">$12.500</div>
+        <ul class="veh-list"><li>Llega en pocos minutos</li><li>Ideal para viajes individuales</li><li>Aire acondicionado</li></ul>
+      </div>
+      <div class="card vehicle-card">
+        <div class="vehicle-top"><div class="veh-emoji">🚐</div><span class="veh-tag">Hasta 7 pasajeros</span></div>
+        <h3>Punto Van</h3>
+        <div class="veh-price">$7.500</div>
+        <ul class="veh-list"><li>Ideal para viajar en grupo</li><li>Precio compartido más bajo</li><li>Espacio para maletas</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="block container" id="comparacion">
+    <div class="section-head">
+      <span>Comparación</span>
+      <h2>Por qué Punto U y no otra opción</h2>
+    </div>
+    <table class="compare-table">
+      <tr><th></th><th>Punto U</th><th>Apps genéricas</th><th>Transporte público</th></tr>
+      <tr><td>Enfoque universitario</td><td>Sí</td><td>No</td><td>No</td></tr>
+      <tr><td>Plan mensual con ahorro</td><td>Sí</td><td>Rara vez</td><td>N/A</td></tr>
+      <tr><td>Espera promedio</td><td>3–5 min</td><td>8–15 min</td><td>Variable</td></tr>
+      <tr><td>Reserva anticipada</td><td>Sí</td><td>Limitado</td><td>No</td></tr>
+    </table>
+  </section>
+
+  <section class="block container" id="planes">
+    <div class="section-head">
+      <span>Planes</span>
+      <h2>Suscríbete y viaja todos los días</h2>
+      <p>Elige un plan mensual y asegura tus trayectos a un precio preferencial.</p>
+    </div>
+    <div class="grid-2">
+      <div class="card plan-card">
+        <h3>Plan Un Trayecto</h3>
+        <div class="plan-price">$80.000 <span>/ mes</span></div>
+        <p style="color:var(--texto-suave);font-size:14px;margin:0;">20 trayectos mensuales</p>
+        <ul class="veh-list"><li>20 viajes</li><li>Carro o van</li><li>Reserva anticipada</li><li>Precio preferencial</li></ul>
+        <button class="btn btn-dark btn-block" onclick="openApp('planes')">Suscribirme</button>
+      </div>
+      <div class="card plan-card featured">
+        <span class="plan-badge">Más popular</span>
+        <h3>Plan Doble Trayecto</h3>
+        <div class="plan-price">$150.000 <span>/ mes</span></div>
+        <p style="color:var(--texto-suave);font-size:14px;margin:0;">40 trayectos mensuales</p>
+        <ul class="veh-list"><li>Ida y regreso</li><li>40 viajes</li><li>Carro o van</li><li>Reserva anticipada</li><li>Precio preferencial</li></ul>
+        <button class="btn btn-primary btn-block" onclick="openApp('planes')">Suscribirme</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="brand" style="color:#fff;"><span class="dot"></span>Punto U</div>
+      <div>Modo demo · Sin conexión a pagos reales · <a href="#" onclick="openAdmin();return false;">Panel admin</a></div>
+    </div>
+  </footer>
+</div>
+
+<!-- ================= APP ================= -->
+<div id="app">
+  <div class="app-topbar">
+    <div class="brand"><span class="dot"></span>Punto U</div>
+    <div class="app-tabs">
+      <button class="app-tab active" data-tab="inicio" onclick="showTab('inicio')">Inicio</button>
+      <button class="app-tab" data-tab="viajes" onclick="showTab('viajes')">Mis viajes</button>
+      <button class="app-tab" data-tab="planes" onclick="showTab('planes')">Planes</button>
+      <button class="app-tab" data-tab="perfil" onclick="showTab('perfil')">Perfil</button>
+    </div>
+    <div class="app-user">
+      <span id="topbar-name">—</span>
+      <div class="avatar" id="topbar-avatar">?</div>
+      <button class="btn btn-ghost" style="padding:8px 14px;font-size:12.5px;" onclick="closeApp()">Salir</button>
+    </div>
+  </div>
+
+  <div class="app-body">
+
+    <!-- INICIO -->
+    <div class="app-screen active" id="screen-inicio">
+      <div class="map-pane">
+        <div id="map"></div>
+        <div class="map-badge"><span class="dot-blue"></span><span id="map-badge-text">Ubicando...</span></div>
+        <button class="locate-btn" onclick="requestLocation()">◎</button>
+
+        <!-- mobile bottom sheet -->
+        <div class="sheet-panel" id="sheet-panel">
+          <div class="sheet-handle"></div>
+          <div id="sheet-content"></div>
+        </div>
+      </div>
+
+      <div class="panel-pane" id="panel-pane">
+        <div id="panel-content"></div>
+      </div>
+    </div>
+
+    <!-- OVERLAY: buscando / conductor / tracking (compartido desktop+mobile) -->
+    <div class="app-screen" id="screen-overlay">
+      <div class="overlay-screen" id="overlay-inner"></div>
+    </div>
+
+    <!-- VIAJES -->
+    <div class="app-screen" id="screen-viajes">
+      <div class="subpage">
+        <h2>Mis viajes</h2>
+        <p class="sub">Historial de todos tus trayectos con Punto U.</p>
+        <div id="trip-history-list"></div>
+      </div>
+    </div>
+
+    <!-- PLANES -->
+    <div class="app-screen" id="screen-planes">
+      <div class="subpage">
+        <h2>Mi movilidad</h2>
+        <p class="sub">Gestiona tu suscripción mensual de Punto U.</p>
+        <div id="plan-current-slot"></div>
+        <div class="grid-2" id="plan-cards-slot"></div>
+      </div>
+    </div>
+
+    <!-- PERFIL -->
+    <div class="app-screen" id="screen-perfil">
+      <div class="subpage">
+        <h2>Mi perfil</h2>
+        <p class="sub">Tu información de cuenta y método de pago.</p>
+        <div id="profile-slot"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bottom-nav">
+    <div class="row">
+      <div class="bn-item active" data-tab="inicio" onclick="showTab('inicio')"><span class="ic">⌂</span>Inicio</div>
+      <div class="bn-item" data-tab="inicio" onclick="showTab('inicio')"><span class="ic">⌖</span>Viajar</div>
+      <div class="bn-item" data-tab="planes" onclick="showTab('planes')"><span class="ic">▣</span>Planes</div>
+      <div class="bn-item" data-tab="viajes" onclick="showTab('viajes')"><span class="ic">◷</span>Viajes</div>
+      <div class="bn-item" data-tab="perfil" onclick="showTab('perfil')"><span class="ic">○</span>Perfil</div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= AUTH MODAL ================= -->
+<div class="modal-backdrop hidden" id="auth-modal">
+  <div class="modal">
+    <div class="tab-switch">
+      <button class="active" id="tab-login" onclick="switchAuthTab('login')">Iniciar sesión</button>
+      <button id="tab-register" onclick="switchAuthTab('register')">Crear cuenta</button>
+    </div>
+    <div id="auth-body"></div>
+  </div>
+</div>
+
+<!-- ================= CHECKOUT MODAL ================= -->
+<div class="modal-backdrop hidden" id="checkout-modal">
+  <div class="modal" id="checkout-body"></div>
+</div>
+
+<!-- ================= ADMIN ================= -->
+<div id="admin" class="hidden" style="position:fixed;inset:0;background:var(--crema);z-index:150;overflow:auto;">
+  <div class="container" style="padding:40px 24px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;">
+      <h2 style="color:var(--verde-oscuro);margin:0;">Panel administrativo — Punto U</h2>
+      <button class="btn btn-outline" onclick="closeAdmin()">Cerrar</button>
+    </div>
+    <div class="grid-3" id="admin-stats" style="margin-bottom:30px;"></div>
+    <h3 style="color:var(--verde-oscuro);">Conductores</h3>
+    <div id="admin-drivers" style="margin-bottom:30px;"></div>
+    <h3 style="color:var(--verde-oscuro);">Viajes recientes</h3>
+    <div id="admin-trips"></div>
+  </div>
+</div>
+
+<script>
+/* ======================================================================
+   PUNTO U — DEMO MODE
+   Mapa real (Leaflet + OpenStreetMap), geolocalización real, ruteo real
+   (OSRM demo público) y geocodificación real (Nominatim). Backend,
+   base de datos, autenticación y Stripe están simulados en memoria
+   porque este entregable es un único archivo de front-end: la
+   arquitectura y los nombres de datos siguen el mismo modelo descrito
+   en el prompt (users, trips, subscriptions, payments...) para que se
+   puedan conectar 1:1 a un backend real más adelante.
+   ====================================================================== */
+
+const UNI = {lat:3.3455, lng:-76.5350, name:"Universidad Icesi"}; // Cali, referencia de campus
+
+const state = {
+  user:null,
+  origin:null,        // {lat,lng,label}
+  destination:null,    // {lat,lng,label}
+  routeCoords:null,
+  routeKm:0,
+  routeMin:0,
+  selectedVehicle:null, // 'carro' | 'van'
+  when:'now',
+  scheduledAt:null,
+  driver:null,
+  tripTimer:null,
+  tripStatus:null,
+  trips:[
+    {date:"10 sep 2026",time:"6:55 AM",origin:"Casa",destination:"Universidad Icesi",vehicle:"Punto Van",driver:"Marta L.",price:3750,status:"Completado"},
+    {date:"08 sep 2026",time:"5:40 PM",origin:"Universidad Icesi",destination:"Casa",vehicle:"Punto Carro",driver:"Carlos M.",price:9800,status:"Completado"},
+    {date:"03 sep 2026",time:"7:10 AM",origin:"Apto 402",destination:"Universidad Icesi",vehicle:"Punto Van",driver:"Diego R.",price:4200,status:"Cancelado"},
+  ],
+  subscription:null, // {plan, price, trips, nextBilling, status}
+  paymentMethod:null // {last4}
+};
+
+const DRIVERS = [
+  {name:"Carlos M.", rating:4.9, car:"Toyota Corolla", color:"Blanco", plate:"ABC-123"},
+  {name:"Marta L.", rating:4.8, car:"Chevrolet Spark", color:"Gris", plate:"HJK-556"},
+  {name:"Diego R.", rating:5.0, car:"Renault Duster", color:"Negro", plate:"QWE-980"},
+  {name:"Laura P.", rating:4.7, car:"Kia Soluto", color:"Rojo", plate:"ZXC-341"},
+];
+
+const PLANS = {
+  uno:{name:"Plan Un Trayecto", price:80000, trips:20},
+  doble:{name:"Plan Doble Trayecto", price:150000, trips:40},
+};
+
+function money(n){ return "$" + Math.round(n).toLocaleString("es-CO"); }
+
+/* ---------------- LANDING mini map ---------------- */
+let heroMap;
+window.addEventListener('load', ()=>{
+  heroMap = L.map('hero-map',{zoomControl:false,attributionControl:false,dragging:false,scrollWheelZoom:false}).setView([UNI.lat,UNI.lng],14);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(heroMap);
+  L.marker([UNI.lat,UNI.lng]).addTo(heroMap);
+  L.circleMarker([UNI.lat+0.01,UNI.lng-0.008],{radius:7,color:'#FF6A2B',fillColor:'#FF6A2B',fillOpacity:1}).addTo(heroMap);
+});
+
+/* ================= AUTH ================= */
+let pendingIntent = null; // 'planes' etc, where to land after login
+
+function openApp(intent){
+  pendingIntent = intent || null;
+  if(state.user){ enterApp(); return; }
+  document.getElementById('auth-modal').classList.remove('hidden');
+  switchAuthTab('login');
+}
+function closeAuth(){ document.getElementById('auth-modal').classList.add('hidden'); }
+
+function switchAuthTab(tab){
+  document.getElementById('tab-login').classList.toggle('active', tab==='login');
+  document.getElementById('tab-register').classList.toggle('active', tab==='register');
+  const body = document.getElementById('auth-body');
+  if(tab==='login'){
+    body.innerHTML = `
+      <h3>Bienvenido de nuevo</h3>
+      <p class="sub">Ingresa a tu cuenta de Punto U.</p>
+      <div class="field"><label>Correo</label><div class="field-input"><input id="li-email" type="email" placeholder="tucorreo@universidad.edu.co"></div></div>
+      <div class="field"><label>Contraseña</label><div class="field-input"><input id="li-pass" type="password" placeholder="••••••••"></div></div>
+      <div id="li-error"></div>
+      <button class="btn btn-primary btn-block" onclick="doLogin()">Iniciar sesión</button>
+      <p style="text-align:center;font-size:12.5px;color:var(--texto-suave);margin-top:14px;">¿Olvidaste tu contraseña? <a href="#" style="color:var(--naranja);font-weight:700;" onclick="return false;">Recuperar</a></p>`;
+  } else {
+    body.innerHTML = `
+      <h3>Crea tu cuenta</h3>
+      <p class="sub">Regístrate con tu correo universitario.</p>
+      <div class="field"><label>Nombre</label><div class="field-input"><input id="rg-name" placeholder="Tu nombre"></div></div>
+      <div class="field"><label>Correo</label><div class="field-input"><input id="rg-email" type="email" placeholder="tucorreo@universidad.edu.co"></div></div>
+      <div class="field"><label>Universidad</label><div class="field-input"><input id="rg-uni" placeholder="Universidad Icesi"></div></div>
+      <div class="field"><label>Contraseña</label><div class="field-input"><input id="rg-pass" type="password" placeholder="••••••••"></div></div>
+      <div id="rg-error"></div>
+      <button class="btn btn-primary btn-block" onclick="doRegister()">Crear cuenta</button>`;
+  }
+}
+
+function doLogin(){
+  const email = document.getElementById('li-email').value.trim();
+  const pass = document.getElementById('li-pass').value;
+  if(!email || !pass){
+    document.getElementById('li-error').innerHTML = `<div class="msg-error">Ingresa tu correo y contraseña.</div>`;
+    return;
+  }
+  state.user = {name: email.split('@')[0].replace(/\W/g,' '), email, university:"Universidad Icesi"};
+  state.paymentMethod = {last4:"4242"};
+  closeAuth();
+  enterApp();
+}
+function doRegister(){
+  const name = document.getElementById('rg-name').value.trim();
+  const email = document.getElementById('rg-email').value.trim();
+  const uni = document.getElementById('rg-uni').value.trim() || "Universidad Icesi";
+  const pass = document.getElementById('rg-pass').value;
+  if(!name || !email || !pass){
+    document.getElementById('rg-error').innerHTML = `<div class="msg-error">Completa todos los campos.</div>`;
+    return;
+  }
+  state.user = {name, email, university:uni};
+  closeAuth();
+  enterApp();
+}
+
+function enterApp(){
+  document.getElementById('app').classList.add('active');
+  document.getElementById('topbar-name').textContent = state.user.name;
+  document.getElementById('topbar-avatar').textContent = state.user.name.trim()[0].toUpperCase();
+  if(pendingIntent==='planes'){ showTab('planes'); } else { showTab('inicio'); }
+  pendingIntent = null;
+  setTimeout(initMapIfNeeded, 50);
+}
+function closeApp(){
+  document.getElementById('app').classList.remove('active');
+}
+
+/* ================= TABS ================= */
+function showTab(tab){
+  document.querySelectorAll('.app-screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+tab).classList.add('active');
+  document.querySelectorAll('.app-tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===tab));
+  document.querySelectorAll('.bn-item').forEach(t=>t.classList.toggle('active', t.dataset.tab===tab));
+  if(tab==='inicio'){ setTimeout(()=>{ if(map) map.invalidateSize(); },80); renderBookingPanel(); }
+  if(tab==='viajes') renderTripHistory();
+  if(tab==='planes') renderPlanes();
+  if(tab==='perfil') renderPerfil();
+}
+
+/* ================= MAP + GEOLOCATION ================= */
+let map, userMarker, destMarker, routeLine, vehicleMarkers=[], mapInitialized=false;
+
+function initMapIfNeeded(){
+  if(mapInitialized) return;
+  mapInitialized = true;
+  map = L.map('map',{zoomControl:true}).setView([UNI.lat, UNI.lng], 14);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'&copy; OpenStreetMap'}).addTo(map);
+  L.marker([UNI.lat,UNI.lng],{title:UNI.name}).addTo(map).bindPopup(UNI.name);
+
+  map.on('click', (e)=>{
+    if(!state.origin || state.manualPick==='origin'){
+      setOrigin(e.latlng.lat, e.latlng.lng, "Ubicación seleccionada en el mapa");
+      state.manualPick = null;
+    } else if(state.manualPick==='destination'){
+      setDestination(e.latlng.lat, e.latlng.lng, "Destino seleccionado en el mapa");
+      state.manualPick = null;
+    }
+  });
+
+  spawnNearbyVehicles(UNI.lat, UNI.lng);
+  requestLocation();
+  renderBookingPanel();
+}
+
+function requestLocation(){
+  const badge = document.getElementById('map-badge-text');
+  badge.textContent = "Ubicando...";
+  if(!navigator.geolocation){
+    badge.textContent = "GPS no disponible";
+    showPanelError("No pudimos obtener tu ubicación. Selecciona tu punto de partida en el mapa.");
+    state.manualPick = 'origin';
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(
+    (pos)=>{
+      setOrigin(pos.coords.latitude, pos.coords.longitude, "Mi ubicación actual");
+      map.setView([pos.coords.latitude,pos.coords.longitude],15);
+      badge.textContent = "Ubicación activa";
+      spawnNearbyVehicles(pos.coords.latitude,pos.coords.longitude);
+    },
+    ()=>{
+      badge.textContent = "Ubicación no disponible";
+      showPanelError("No pudimos obtener tu ubicación. Toca el mapa para elegir tu punto de partida manualmente.");
+      state.manualPick = 'origin';
+    },
+    {enableHighAccuracy:true, timeout:8000}
+  );
+}
+
+function setOrigin(lat,lng,label){
+  state.origin = {lat,lng,label};
+  if(userMarker) map.removeLayer(userMarker);
+  userMarker = L.circleMarker([lat,lng],{radius:8,color:'#2A7BE0',fillColor:'#2A7BE0',fillOpacity:1,weight:3}).addTo(map).bindPopup("Tú estás aquí");
+  renderBookingPanel();
+}
+
+function setDestination(lat,lng,label){
+  state.destination = {lat,lng,label};
+  if(destMarker) map.removeLayer(destMarker);
+  destMarker = L.marker([lat,lng]).addTo(map).bindPopup(label);
+  calcRoute();
+}
+
+function spawnNearbyVehicles(lat,lng){
+  vehicleMarkers.forEach(m=>map.removeLayer(m));
+  vehicleMarkers = [];
+  const n = 4 + Math.floor(Math.random()*2);
+  for(let i=0;i<n;i++){
+    const dLat = (Math.random()-0.5)*0.018;
+    const dLng = (Math.random()-0.5)*0.018;
+    const isVan = Math.random()>0.55;
+    const icon = L.divIcon({html:`<div style="font-size:22px;">${isVan?'🚐':'🚗'}</div>`, className:'', iconSize:[26,26]});
+    const m = L.marker([lat+dLat, lng+dLng], {icon}).addTo(map);
+    vehicleMarkers.push(m);
+  }
+}
+
+/* ---- geocoding (Nominatim) ---- */
+let geoTimeout;
+function onDestInput(val){
+  clearTimeout(geoTimeout);
+  const box = document.getElementById('dest-suggestions');
+  if(!val || val.length<3){ if(box) box.innerHTML=''; return; }
+  geoTimeout = setTimeout(async ()=>{
+    try{
+      const url = `https://nominatim.openstreetmap.org/search?format=json&limit=5&q=${encodeURIComponent(val)}&viewbox=${UNI.lng-0.2},${UNI.lat+0.2},${UNI.lng+0.2},${UNI.lat-0.2}&bounded=0`;
+      const res = await fetch(url,{headers:{'Accept':'application/json'}});
+      const data = await res.json();
+      if(!box) return;
+      if(!data.length){ box.innerHTML = `<div>Sin resultados</div>`; return; }
+      box.innerHTML = data.map((d,i)=>`<div onclick="pickSuggestion(${i})">${d.display_name}</div>`).join('');
+      window._suggestions = data;
+    }catch(e){
+      if(box) box.innerHTML = `<div>No pudimos buscar el destino.</div>`;
+    }
+  }, 450);
+}
+function pickSuggestion(i){
+  const d = window._suggestions[i];
+  document.getElementById('dest-suggestions').innerHTML='';
+  setDestination(parseFloat(d.lat), parseFloat(d.lon), d.display_name.split(',')[0]);
+  const input = document.getElementById('dest-input');
+  if(input) input.value = d.display_name.split(',')[0];
+  const inputM = document.getElementById('dest-input-m');
+  if(inputM) inputM.value = d.display_name.split(',')[0];
+}
+
+/* ---- routing (OSRM public demo) ---- */
+async function calcRoute(){
+  if(!state.origin || !state.destination){ return; }
+  try{
+    const o = state.origin, d = state.destination;
+    const url = `https://router.project-osrm.org/route/v1/driving/${o.lng},${o.lat};${d.lng},${d.lat}?overview=full&geometries=geojson`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if(!data.routes || !data.routes.length){ throw new Error('sin ruta'); }
+    const route = data.routes[0];
+    state.routeCoords = route.geometry.coordinates.map(c=>[c[1],c[0]]);
+    state.routeKm = route.distance/1000;
+    state.routeMin = route.duration/60;
+    if(routeLine) map.removeLayer(routeLine);
+    routeLine = L.polyline(state.routeCoords,{color:'#FF6A2B',weight:5}).addTo(map);
+    map.fitBounds(routeLine.getBounds(),{padding:[40,40]});
+    renderBookingPanel();
+  }catch(e){
+    showPanelError("No pudimos calcular la ruta. Intenta con otro destino.");
+  }
+}
+
+function carroPrice(){ return Math.round((3000 + state.routeKm*1130)/100)*100; }
+function vanPrice(){ return Math.round((carroPrice()*0.6)/100)*100; }
+
+/* ================= BOOKING PANEL (desktop side / mobile sheet) ================= */
+function panelHTML(){
+  const o = state.origin, d = state.destination;
+  let html = `<h3 class="panel-title">¿A dónde vas?</h3>`;
+  html += `<div class="field"><label>Desde</label>
+    <div class="field-input origin"><span class="dot-blue"></span><input readonly value="${o?o.label:'Buscando ubicación...'}"></div></div>`;
+  html += `<div class="field"><label>Hasta</label>
+    <div class="field-input dest"><span class="dot-red"></span><input id="dest-input" placeholder="Buscar destino" oninput="onDestInput(this.value)" value="${d?d.label:''}"></div>
+    <div class="suggestions" id="dest-suggestions"></div></div>`;
+
+  if(o && d && state.routeCoords){
+    html += `<div class="trip-summary">
+      <div class="row"><span>${d.label}</span></div>
+      <div class="row"><strong>${state.routeKm.toFixed(1)} km</strong><strong>${Math.round(state.routeMin)} min</strong></div>
+      <div class="price">Precio estimado: ${money(carroPrice())}</div>
+    </div>`;
+
+    html += `<label style="font-size:12.5px;font-weight:700;color:var(--texto-suave);text-transform:uppercase;">¿Cuándo quieres viajar?</label>
+    <div class="when-toggle">
+      <button class="${state.when==='now'?'active':''}" onclick="setWhen('now')">Ahora</button>
+      <button class="${state.when==='later'?'active':''}" onclick="setWhen('later')">Programar viaje</button>
+    </div>`;
+
+    if(state.when==='later'){
+      html += `<div class="field"><label>Fecha</label><div class="field-input"><input type="date" id="sched-date"></div></div>
+      <div class="field"><label>Hora</label><div class="field-input"><input type="time" id="sched-time"></div></div>`;
+    }
+
+    html += vehicleOptionHTML('carro','🚗','Punto Carro','Hasta 4 pasajeros', carroPrice(), 3);
+    html += vehicleOptionHTML('van','🚐','Punto Van','Hasta 7 pasajeros', vanPrice(), 5);
+
+    html += `<button class="btn btn-primary btn-block" id="confirm-btn" ${state.selectedVehicle?'':'disabled'} onclick="confirmTrip()">${state.when==='later'?'Programar viaje':'Confirmar viaje'}</button>`;
+  } else if(o && !d){
+    html += `<div class="msg-info">Escribe tu destino o toca el mapa para elegirlo.</div>`;
+  }
+  html += `<div id="panel-error-slot"></div>`;
+  return html;
+}
+function vehicleOptionHTML(id,emoji,name,cap,price,eta){
+  const sel = state.selectedVehicle===id;
+  return `<div class="veh-option ${sel?'selected':''}" onclick="selectVehicle('${id}')">
+    <div class="veh-emoji">${emoji}</div>
+    <div class="veh-meta"><strong>${name}</strong><span>${cap}</span></div>
+    <div class="veh-cost"><strong>${money(price)}</strong><span>Llega en ${eta} min</span></div>
+  </div>`;
+}
+function setWhen(w){ state.when = w; renderBookingPanel(); }
+function selectVehicle(v){ state.selectedVehicle = v; renderBookingPanel(); }
+function showPanelError(msg){
+  ['panel-error-slot'].forEach(id=>{});
+  renderBookingPanel();
+  setTimeout(()=>{
+    document.querySelectorAll('#panel-error-slot').forEach(el=> el.innerHTML = `<div class="msg-error">${msg}</div>`);
+  },0);
+}
+function renderBookingPanel(){
+  const desktop = document.getElementById('panel-content');
+  const mobile = document.getElementById('sheet-content');
+  const html = panelHTML();
+  if(desktop) desktop.innerHTML = html;
+  if(mobile) mobile.innerHTML = html.replace('id="dest-input"','id="dest-input-m"').replace('id="dest-suggestions"','id="dest-suggestions-m"').replace('onclick="onDestInput(this.value)"',`oninput="onDestInput(this.value)"`);
+}
+
+/* ================= TRIP FLOW ================= */
+function confirmTrip(){
+  if(!state.selectedVehicle) return;
+  if(state.when==='later'){
+    const dateEl = document.getElementById('sched-date');
+    const timeEl = document.getElementById('sched-time');
+    if(!dateEl.value || !timeEl.value){
+      showPanelError("Selecciona la fecha y la hora del viaje.");
+      return;
+    }
+    state.scheduledAt = `${dateEl.value} ${timeEl.value}`;
+    state.trips.unshift({
+      date:dateEl.value, time:timeEl.value, origin:state.origin.label, destination:state.destination.label,
+      vehicle: state.selectedVehicle==='carro'?'Punto Carro':'Punto Van', driver:"Por asignar",
+      price: state.selectedVehicle==='carro'?carroPrice():vanPrice(), status:"Programado"
+    });
+    renderTripHistory();
+    document.getElementById('screen-overlay').classList.add('active');
+    document.getElementById('screen-inicio').classList.remove('active');
+    document.getElementById('overlay-inner').innerHTML = `
+      <div class="top"><button class="back-btn" onclick="backFromOverlay()">←</button><strong>Viaje programado</strong></div>
+      <div class="searching-body">
+        <div style="font-size:52px;">🗓️</div>
+        <h3 style="color:var(--verde-oscuro);margin:0;">Reserva confirmada</h3>
+        <p style="color:var(--texto-suave);text-align:center;max-width:280px;">Te asignaremos un conductor cerca de la hora programada: ${state.scheduledAt}.</p>
+        <button class="btn btn-dark" onclick="backFromOverlay()">Volver al inicio</button>
+      </div>`;
+    return;
+  }
+  startSearching();
+}
+
+function backFromOverlay(){
+  document.getElementById('screen-overlay').classList.remove('active');
+  showTab('inicio');
+}
+
+function startSearching(){
+  document.getElementById('screen-inicio').classList.remove('active');
+  document.getElementById('screen-overlay').classList.add('active');
+  document.getElementById('overlay-inner').innerHTML = `
+    <div class="top"><button class="back-btn" onclick="cancelSearch()">✕</button><strong>Solicitando viaje</strong></div>
+    <div class="searching-body">
+      <div class="spinner"></div>
+      <h3 style="color:var(--verde-oscuro);margin:0;">Buscando vehículo...</h3>
+      <p style="color:var(--texto-suave);">Conectando con conductores cerca de ti.</p>
+    </div>`;
+  state.tripStatus = 'SEARCHING';
+  setTimeout(()=>{
+    if(state.tripStatus!=='SEARCHING') return; // cancelado
+    const noDriver = Math.random() < 0.06;
+    if(noDriver){
+      document.getElementById('overlay-inner').innerHTML = `
+        <div class="top"><button class="back-btn" onclick="backFromOverlay()">←</button><strong>Solicitando viaje</strong></div>
+        <div class="searching-body">
+          <div style="font-size:44px;">😕</div>
+          <h3 style="color:var(--verde-oscuro);margin:0;">No encontramos vehículos cercanos</h3>
+          <button class="btn btn-primary" onclick="startSearching()">Intentar de nuevo</button>
+        </div>`;
+      return;
+    }
+    driverFound();
+  }, 2600);
+}
+function cancelSearch(){
+  state.tripStatus = null;
+  backFromOverlay();
+}
+
+function driverFound(){
+  state.driver = DRIVERS[Math.floor(Math.random()*DRIVERS.length)];
+  state.tripStatus = 'DRIVER_ASSIGNED';
+  const v = state.selectedVehicle==='carro'?'Punto Carro':'Punto Van';
+  document.getElementById('overlay-inner').innerHTML = `
+    <div class="top"><button class="back-btn" onclick="cancelTrip()">✕</button><strong>¡Vehículo encontrado!</strong></div>
+    <div class="driver-card">
+      <div class="driver-row">
+        <div class="driver-avatar">${state.driver.name[0]}</div>
+        <div><div class="driver-name">${state.driver.name}</div><div class="driver-meta">⭐ ${state.driver.rating} · ${v}</div></div>
+      </div>
+      <div class="driver-facts">
+        <div><small>Vehículo</small>${state.driver.car}</div>
+        <div><small>Placa</small>${state.driver.plate}</div>
+        <div><small>Color</small>${state.driver.color}</div>
+        <div><small>Llega en</small>3 min</div>
+      </div>
+    </div>
+    <div style="padding:0 20px;"><button class="btn btn-primary btn-block" onclick="startTracking()">Ver viaje</button></div>`;
+}
+
+function cancelTrip(){
+  clearInterval(state.tripTimer);
+  state.tripStatus = 'TRIP_CANCELLED';
+  state.trips.unshift({
+    date:new Date().toLocaleDateString('es-CO'), time:new Date().toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'}),
+    origin:state.origin.label, destination:state.destination.label,
+    vehicle: state.selectedVehicle==='carro'?'Punto Carro':'Punto Van', driver: state.driver? state.driver.name:'—',
+    price:0, status:"Cancelado"
+  });
+  backFromOverlay();
+}
+
+let trackMap, trackVehicleMarker, trackStep=0, trackPath=[];
+function startTracking(){
+  state.tripStatus = 'DRIVER_ARRIVING';
+  document.getElementById('overlay-inner').innerHTML = `
+    <div class="tracking-map-wrap"><div id="track-map"></div></div>
+    <div class="tracking-card">
+      <span class="eta-badge" id="eta-text">03:00</span>
+      <div class="status-line" id="status-text">Tu conductor está en camino</div>
+      <div class="driver-row" style="margin-bottom:0;">
+        <div class="driver-avatar">${state.driver.name[0]}</div>
+        <div><div class="driver-name">${state.driver.name}</div><div class="driver-meta">${state.driver.car} · ${state.driver.plate}</div></div>
+      </div>
+      <div class="track-actions">
+        <button class="btn btn-ghost" style="flex:1;" onclick="alert('Función de contacto simulada en modo demo.')">Contactar</button>
+        <button class="btn btn-outline" style="flex:1;" onclick="cancelTrip()">Cancelar viaje</button>
+      </div>
+    </div>`;
+  setTimeout(()=>{
+    trackMap = L.map('track-map').setView([state.origin.lat,state.origin.lng],14);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(trackMap);
+    L.marker([state.origin.lat,state.origin.lng]).addTo(trackMap).bindPopup("Tú");
+    L.marker([state.destination.lat,state.destination.lng]).addTo(trackMap).bindPopup("Destino");
+    if(state.routeCoords && state.routeCoords.length){
+      L.polyline(state.routeCoords,{color:'#FF6A2B',weight:5}).addTo(trackMap);
+      trackMap.fitBounds(L.polyline(state.routeCoords).getBounds(),{padding:[30,30]});
+      // simulate the car approaching from a point behind the origin along the reversed start of route
+      trackPath = [ [state.origin.lat+0.01, state.origin.lng+0.01], ...state.routeCoords ];
+    } else {
+      trackPath = [[state.origin.lat+0.01,state.origin.lng+0.01],[state.origin.lat,state.origin.lng],[state.destination.lat,state.destination.lng]];
+    }
+    const carIcon = L.divIcon({html:`<div style="font-size:24px;">${state.selectedVehicle==='van'?'🚐':'🚗'}</div>`,className:'',iconSize:[26,26]});
+    trackVehicleMarker = L.marker(trackPath[0],{icon:carIcon}).addTo(trackMap);
+    trackStep = 0;
+    runTripSimulation();
+  },60);
+}
+
+function runTripSimulation(){
+  let secondsToArrival = 15; // conductor llegando (demo, comprimido en tiempo)
+  let phase = 'arriving';
+  state.tripTimer = setInterval(()=>{
+    if(phase==='arriving'){
+      secondsToArrival--;
+      const m = Math.floor(secondsToArrival/60), s = secondsToArrival%60;
+      document.getElementById('eta-text') && (document.getElementById('eta-text').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`);
+      // advance marker toward origin (first ~30% of the pre-path)
+      const preSteps = Math.max(1, Math.floor(trackPath.length*0.15));
+      const idx = Math.min(preSteps-1, Math.floor((15-secondsToArrival)/15*preSteps));
+      if(trackVehicleMarker) trackVehicleMarker.setLatLng(trackPath[idx]);
+      if(secondsToArrival<=0){
+        phase='arrived';
+        state.tripStatus='DRIVER_ARRIVED';
+        document.getElementById('status-text') && (document.getElementById('status-text').textContent = 'Tu conductor llegó al punto de recogida');
+        setTimeout(()=>{ phase='trip'; state.tripStatus='TRIP_STARTED'; document.getElementById('status-text') && (document.getElementById('status-text').textContent='Viaje en curso hacia tu destino'); trackStep = Math.floor(trackPath.length*0.15); }, 1500);
+      }
+    } else if(phase==='trip'){
+      trackStep += Math.max(1, Math.floor(trackPath.length/22));
+      if(trackStep >= trackPath.length-1){
+        trackStep = trackPath.length-1;
+        if(trackVehicleMarker) trackVehicleMarker.setLatLng(trackPath[trackStep]);
+        clearInterval(state.tripTimer);
+        completeTrip();
+        return;
+      }
+      if(trackVehicleMarker) trackVehicleMarker.setLatLng(trackPath[trackStep]);
+      const remainMin = Math.max(1, Math.round(state.routeMin * (1-(trackStep/trackPath.length))));
+      document.getElementById('eta-text') && (document.getElementById('eta-text').textContent = `${String(remainMin).padStart(2,'0')} min`);
+    }
+  },1000);
+}
+
+function completeTrip(){
+  state.tripStatus = 'TRIP_COMPLETED';
+  const price = state.selectedVehicle==='carro'?carroPrice():vanPrice();
+  const now = new Date();
+  state.trips.unshift({
+    date:now.toLocaleDateString('es-CO'), time:now.toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'}),
+    origin:state.origin.label, destination:state.destination.label,
+    vehicle: state.selectedVehicle==='carro'?'Punto Carro':'Punto Van', driver: state.driver.name,
+    price, status:"Completado"
+  });
+  if(state.subscription && state.subscription.status==='active' && state.subscription.tripsLeft>0){
+    state.subscription.tripsLeft--;
+  }
+  document.getElementById('overlay-inner').innerHTML = `
+    <div class="top"><strong>Viaje completado</strong></div>
+    <div class="searching-body">
+      <div style="font-size:52px;">✅</div>
+      <h3 style="color:var(--verde-oscuro);margin:0;">Llegaste a tu destino</h3>
+      <p style="color:var(--texto-suave);">${money(price)} · ${state.destination.label}</p>
+      <button class="btn btn-primary" onclick="finishAndGoHome()">Volver al inicio</button>
+    </div>`;
+}
+function finishAndGoHome(){
+  state.origin=null; state.destination=null; state.selectedVehicle=null; state.routeCoords=null;
+  if(destMarker){ map.removeLayer(destMarker); destMarker=null; }
+  if(routeLine){ map.removeLayer(routeLine); routeLine=null; }
+  document.getElementById('screen-overlay').classList.remove('active');
+  showTab('inicio');
+  requestLocation();
+}
+
+/* ================= VIAJES (historial) ================= */
+function renderTripHistory(){
+  const el = document.getElementById('trip-history-list');
+  if(!state.trips.length){ el.innerHTML = `<div class="msg-info">Aún no tienes viajes registrados.</div>`; return; }
+  el.innerHTML = state.trips.map(t=>{
+    const tagClass = t.status==='Completado'?'tag-completed':(t.status==='Cancelado'?'tag-cancelled':'tag-active');
+    return `<div class="trip-hist-card">
+      <div class="trip-hist-left">
+        <strong>${t.origin} → ${t.destination}</strong>
+        <span>${t.date} · ${t.time} · ${t.vehicle} · ${t.driver}</span>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-weight:700;color:var(--verde-oscuro);">${t.price?money(t.price):'—'}</div>
+        <span class="trip-status-tag ${tagClass}">${t.status}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ================= PLANES ================= */
+function renderPlanes(){
+  const cur = document.getElementById('plan-current-slot');
+  if(state.subscription && state.subscription.status==='active'){
+    cur.innerHTML = `<div class="plan-current-card">
+      <div><small>Plan actual</small><div class="big">${state.subscription.name}</div></div>
+      <div><small>Próximo cobro</small><div class="big">${state.subscription.nextBilling}</div></div>
+      <div><small>Viajes disponibles</small><div class="big">${state.subscription.tripsLeft}</div></div>
+      <button class="btn btn-lime" onclick="cancelSubscription()">Cancelar suscripción</button>
+    </div>`;
+  } else {
+    cur.innerHTML = `<div class="msg-info">No tienes un plan activo. Elige uno abajo para empezar a ahorrar.</div>`;
+  }
+  const cards = document.getElementById('plan-cards-slot');
+  cards.innerHTML = `
+    <div class="card plan-card">
+      <h3>Plan Un Trayecto</h3>
+      <div class="plan-price">$80.000 <span>/ mes</span></div>
+      <p style="color:var(--texto-suave);font-size:14px;margin:0;">20 trayectos mensuales</p>
+      <ul class="veh-list"><li>20 viajes</li><li>Carro o van</li><li>Reserva anticipada</li><li>Precio preferencial</li></ul>
+      <button class="btn btn-dark btn-block" onclick="openCheckout('uno')">Suscribirme</button>
+    </div>
+    <div class="card plan-card featured">
+      <span class="plan-badge">Más popular</span>
+      <h3>Plan Doble Trayecto</h3>
+      <div class="plan-price">$150.000 <span>/ mes</span></div>
+      <p style="color:var(--texto-suave);font-size:14px;margin:0;">40 trayectos mensuales</p>
+      <ul class="veh-list"><li>Ida y regreso</li><li>40 viajes</li><li>Carro o van</li><li>Reserva anticipada</li><li>Precio preferencial</li></ul>
+      <button class="btn btn-primary btn-block" onclick="openCheckout('doble')">Suscribirme</button>
+    </div>`;
+}
+function cancelSubscription(){
+  if(state.subscription){ state.subscription.status='cancelled'; }
+  renderPlanes();
+}
+
+/* ---- Stripe Checkout (simulado en modo demo) ---- */
+function openCheckout(planId){
+  const plan = PLANS[planId];
+  document.getElementById('checkout-modal').classList.remove('hidden');
+  document.getElementById('checkout-body').innerHTML = `
+    <div class="stripe-badge">Procesado por <b>Stripe</b> · Modo demo (DEMO_MODE=true)</div>
+    <h3>${plan.name}</h3>
+    <p class="sub">${money(plan.price)} / mes · ${plan.trips} trayectos mensuales</p>
+    <div class="stripe-mock">
+      <div class="field"><label>Número de tarjeta</label><div class="field-input"><input value="4242 4242 4242 4242" readonly></div></div>
+      <div style="display:flex;gap:10px;">
+        <div class="field" style="flex:1;"><label>Vence</label><div class="field-input"><input value="12/29" readonly></div></div>
+        <div class="field" style="flex:1;"><label>CVC</label><div class="field-input"><input value="123" readonly></div></div>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--texto-suave);">Punto U nunca almacena tu número de tarjeta completo: en producción, este formulario es reemplazado por Stripe Checkout / Stripe Elements alojado por Stripe.</p>
+    <div style="display:flex;gap:10px;">
+      <button class="btn btn-outline" style="flex:1;" onclick="closeCheckout()">Cancelar</button>
+      <button class="btn btn-primary" style="flex:1;" id="pay-btn" onclick="processPayment('${planId}')">Pagar ahora</button>
+    </div>`;
+}
+function closeCheckout(){ document.getElementById('checkout-modal').classList.add('hidden'); }
+function processPayment(planId){
+  const btn = document.getElementById('pay-btn');
+  btn.textContent = 'Procesando...'; btn.disabled = true;
+  setTimeout(()=>{
+    const plan = PLANS[planId];
+    const next = new Date(); next.setDate(next.getDate()+30);
+    state.subscription = {
+      name: plan.name, price: plan.price, tripsLeft: plan.trips,
+      nextBilling: next.toLocaleDateString('es-CO',{day:'2-digit',month:'long',year:'numeric'}),
+      status:'active'
+    };
+    state.paymentMethod = {last4:"4242"};
+    document.getElementById('checkout-body').innerHTML = `
+      <div style="text-align:center;padding:10px 0;">
+        <div style="font-size:48px;">✅</div>
+        <h3>¡Suscripción activada!</h3>
+        <p class="sub">${plan.name} · ${money(plan.price)} / mes</p>
+        <div class="trip-summary" style="text-align:left;">
+          <div class="row"><span>Próximo cobro</span><strong>${state.subscription.nextBilling}</strong></div>
+          <div class="row"><span>Viajes disponibles</span><strong>${state.subscription.tripsLeft}</strong></div>
+        </div>
+        <button class="btn btn-primary btn-block" onclick="closeCheckout(); renderPlanes();">Continuar</button>
+      </div>`;
+  }, 1400);
+}
+
+/* ================= PERFIL ================= */
+function renderPerfil(){
+  const el = document.getElementById('profile-slot');
+  const sub = state.subscription;
+  el.innerHTML = `
+    <div class="profile-card">
+      <div class="profile-row"><span>Nombre</span><span>${state.user.name}</span></div>
+      <div class="profile-row"><span>Correo</span><span>${state.user.email}</span></div>
+      <div class="profile-row"><span>Universidad</span><span>${state.user.university}</span></div>
+      <div class="profile-row"><span>Método de pago</span><span>•••• ${state.paymentMethod?state.paymentMethod.last4:'—'}</span></div>
+      <div class="profile-row"><span>Plan actual</span><span>${sub && sub.status==='active'?sub.name:'Sin plan activo'}</span></div>
+      <div class="profile-row"><span>Próximo cobro</span><span>${sub && sub.status==='active'?money(sub.price):'—'}</span></div>
+      <div class="profile-actions">
+        <button class="btn btn-outline" onclick="showTab('planes')">Administrar suscripción</button>
+        <button class="btn btn-ghost" onclick="alert('En producción esto abre Stripe para actualizar tu método de pago.')">Actualizar método de pago</button>
+        ${sub && sub.status==='active' ? `<button class="btn btn-primary" onclick="cancelSubscription(); renderPerfil();">Cancelar suscripción</button>` : ``}
+      </div>
+    </div>`;
+}
+
+/* ================= ADMIN ================= */
+function openAdmin(){
+  document.getElementById('admin').classList.remove('hidden');
+  const completed = state.trips.filter(t=>t.status==='Completado');
+  const revenue = completed.reduce((a,t)=>a+t.price,0) + (state.subscription && state.subscription.status==='active'? state.subscription.price:0);
+  document.getElementById('admin-stats').innerHTML = `
+    <div class="card"><h3>Usuarios</h3><p style="font-size:26px;font-weight:800;color:var(--verde-oscuro);">${state.user?10:9}</p></div>
+    <div class="card"><h3>Viajes completados</h3><p style="font-size:26px;font-weight:800;color:var(--verde-oscuro);">${completed.length}</p></div>
+    <div class="card"><h3>Ingresos (demo)</h3><p style="font-size:26px;font-weight:800;color:var(--verde-oscuro);">${money(revenue)}</p></div>`;
+  document.getElementById('admin-drivers').innerHTML = `<div class="grid-2">` + DRIVERS.map(d=>`
+    <div class="card" style="display:flex;justify-content:space-between;align-items:center;">
+      <div><strong>${d.name}</strong><div style="color:var(--texto-suave);font-size:13px;">${d.car} · ${d.plate}</div></div>
+      <span class="pill">Activo</span>
+    </div>`).join('') + `</div>`;
+  document.getElementById('admin-trips').innerHTML = state.trips.slice(0,8).map(t=>`
+    <div class="trip-hist-card"><div class="trip-hist-left"><strong>${t.origin} → ${t.destination}</strong><span>${t.date} · ${t.vehicle} · ${t.driver}</span></div><div>${t.price?money(t.price):'—'}</div></div>`).join('');
+}
+function closeAdmin(){ document.getElementById('admin').classList.add('hidden'); }
+</script>
+</body>
+</html>
