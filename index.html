@@ -211,7 +211,7 @@ footer a{color:rgba(255,255,255,.6);}
 }
 
 /* ---------- APP SHELL ---------- */
-#app{position:fixed;inset:0;background:var(--crema);z-index:100;display:none;flex-direction:column;}
+#app{position:fixed;inset:0;background:var(--crema);z-index:1000;display:none;flex-direction:column;}
 #app.active{display:flex;}
 .app-topbar{
   height:66px;flex:0 0 auto;background:var(--verde-oscuro);display:flex;align-items:center;
@@ -233,9 +233,9 @@ footer a{color:rgba(255,255,255,.6);}
 #screen-inicio.active{display:flex;}
 .map-pane{flex:1 1 60%;position:relative;background:#0b241a;}
 #map{position:absolute;inset:0;}
-.map-badge{position:absolute;top:16px;left:16px;background:#fff;padding:8px 14px;border-radius:999px;font-size:12.5px;font-weight:700;box-shadow:var(--sombra);z-index:5;display:flex;align-items:center;gap:6px;}
+.map-badge{position:absolute;top:16px;left:16px;background:#fff;padding:8px 14px;border-radius:999px;font-size:12.5px;font-weight:700;box-shadow:var(--sombra);z-index:800;display:flex;align-items:center;gap:6px;}
 .map-badge .dot-blue{width:9px;height:9px;border-radius:50%;background:#2A7BE0;}
-.locate-btn{position:absolute;bottom:20px;right:16px;background:#fff;width:44px;height:44px;border-radius:12px;box-shadow:var(--sombra);display:flex;align-items:center;justify-content:center;font-size:18px;z-index:5;}
+.locate-btn{position:absolute;bottom:20px;right:16px;background:#fff;width:44px;height:44px;border-radius:12px;box-shadow:var(--sombra);display:flex;align-items:center;justify-content:center;font-size:18px;z-index:800;}
 
 .panel-pane{width:400px;flex:0 0 400px;background:var(--blanco);border-left:1px solid var(--linea);padding:26px;overflow-y:auto;}
 .panel-title{font-size:20px;color:var(--verde-oscuro);margin:0 0 20px;}
@@ -278,7 +278,7 @@ footer a{color:rgba(255,255,255,.6);}
 .msg-info{background:#EAF6EC;color:#1F6A3B;border-radius:10px;padding:11px 14px;font-size:13.5px;margin:10px 0;}
 
 /* searching / driver found / tracking overlay */
-.overlay-screen{position:absolute;inset:0;background:var(--blanco);display:flex;flex-direction:column;z-index:20;}
+.overlay-screen{position:absolute;inset:0;background:var(--blanco);display:flex;flex-direction:column;z-index:900;}
 .overlay-screen .top{padding:18px 22px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--linea);}
 .back-btn{width:36px;height:36px;border-radius:50%;background:var(--crema);display:flex;align-items:center;justify-content:center;font-size:16px;}
 .searching-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;}
@@ -298,7 +298,7 @@ footer a{color:rgba(255,255,255,.6);}
 
 .tracking-map-wrap{flex:1;position:relative;}
 #track-map{position:absolute;inset:0;}
-.tracking-card{background:var(--blanco);border-radius:22px 22px 0 0;box-shadow:0 -12px 30px rgba(0,0,0,.1);padding:22px;position:relative;z-index:6;}
+.tracking-card{background:var(--blanco);border-radius:22px 22px 0 0;box-shadow:0 -12px 30px rgba(0,0,0,.1);padding:22px;position:relative;z-index:800;}
 .eta-badge{background:var(--verde-oscuro);color:#fff;font-size:22px;font-weight:800;padding:8px 16px;border-radius:12px;display:inline-block;}
 .status-line{font-size:13.5px;color:var(--texto-suave);margin:10px 0 16px;}
 .track-actions{display:flex;gap:10px;margin-top:16px;}
@@ -335,7 +335,7 @@ footer a{color:rgba(255,255,255,.6);}
 .bn-item .ic{font-size:19px;}
 
 /* modal */
-.modal-backdrop{position:fixed;inset:0;background:rgba(15,46,34,.55);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;}
+.modal-backdrop{position:fixed;inset:0;background:rgba(15,46,34,.55);z-index:4000;display:flex;align-items:center;justify-content:center;padding:20px;}
 .modal{background:#fff;border-radius:20px;padding:30px;max-width:420px;width:100%;max-height:90vh;overflow:auto;}
 .modal h3{margin:0 0 6px;color:var(--verde-oscuro);font-size:20px;}
 .modal p.sub{color:var(--texto-suave);font-size:13.5px;margin:0 0 20px;}
@@ -346,13 +346,38 @@ footer a{color:rgba(255,255,255,.6);}
 .stripe-badge{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--texto-suave);margin-bottom:12px;}
 .stripe-badge b{color:#635BFF;}
 
+/* chat con conductor + asistencia IA */
+.chat-modal{max-width:460px;padding:0;overflow:hidden;display:flex;flex-direction:column;height:min(680px,90vh);}
+.chat-head{background:var(--verde-oscuro);color:#fff;padding:18px;display:flex;align-items:center;gap:12px;}
+.chat-head .driver-avatar{background:var(--verde-lima);color:var(--verde-oscuro);width:44px;height:44px;font-size:15px;}
+.chat-head-copy{min-width:0;flex:1;}
+.chat-head-copy strong{display:block;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.chat-head-copy span{display:flex;align-items:center;gap:6px;color:rgba(255,255,255,.72);font-size:11.5px;margin-top:3px;}
+.chat-online-dot{width:7px;height:7px;border-radius:50%;background:var(--verde-lima);box-shadow:0 0 0 3px rgba(198,241,53,.15);}
+.chat-close{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;font-size:18px;display:grid;place-items:center;}
+.chat-context{padding:9px 16px;background:#F0F7E4;color:var(--verde-oscuro);font-size:11.5px;font-weight:600;border-bottom:1px solid var(--linea);}
+.chat-messages{flex:1;min-height:260px;overflow-y:auto;padding:18px;background:#F8F6EF;display:flex;flex-direction:column;gap:11px;scroll-behavior:smooth;}
+.chat-message{max-width:84%;padding:11px 13px;border-radius:15px;font-size:13.5px;line-height:1.45;box-shadow:0 2px 8px rgba(15,46,34,.06);white-space:pre-wrap;overflow-wrap:anywhere;}
+.chat-message.assistant{align-self:flex-start;background:#fff;color:var(--texto);border-bottom-left-radius:5px;}
+.chat-message.user{align-self:flex-end;background:var(--verde-oscuro);color:#fff;border-bottom-right-radius:5px;}
+.chat-message small{display:block;margin-top:5px;font-size:9.5px;opacity:.55;text-align:right;}
+.chat-typing{align-self:flex-start;background:#fff;border-radius:15px;padding:10px 14px;color:var(--texto-suave);font-size:18px;letter-spacing:3px;}
+.chat-quick{padding:10px 14px 0;background:#fff;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;}
+.chat-quick::-webkit-scrollbar{display:none;}
+.chat-quick button{white-space:nowrap;border:1px solid var(--linea);border-radius:999px;padding:7px 10px;color:var(--verde-oscuro);font-size:11.5px;font-weight:700;background:var(--crema);}
+.chat-compose{padding:12px 14px 14px;background:#fff;display:grid;grid-template-columns:1fr 42px;gap:9px;align-items:center;}
+.chat-compose input{width:100%;border:1px solid var(--linea);border-radius:999px;padding:12px 15px;outline:none;font:inherit;font-size:13.5px;color:var(--texto);background:var(--crema);}
+.chat-compose input:focus{border-color:var(--naranja);box-shadow:0 0 0 3px rgba(255,106,43,.1);}
+.chat-send{width:42px;height:42px;border-radius:50%;background:var(--naranja);color:#fff;font-size:17px;display:grid;place-items:center;}
+.chat-send:disabled{opacity:.45;cursor:not-allowed;}
+
 @media(max-width:860px){
   .panel-pane{display:none;}
   #screen-inicio .map-pane{flex:1 1 100%;}
   .sheet-panel{
     position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:22px 22px 0 0;
     box-shadow:0 -12px 30px rgba(0,0,0,.12);max-height:80%;overflow-y:auto;padding:20px;
-    transform:translateY(0);transition:transform .25s ease;z-index:8;
+    transform:translateY(0);transition:transform .25s ease;z-index:800;
   }
   .sheet-handle{width:40px;height:5px;background:var(--linea);border-radius:99px;margin:0 auto 14px;}
   .bottom-nav{display:block;}
@@ -360,6 +385,8 @@ footer a{color:rgba(255,255,255,.6);}
   .app-body{padding-bottom:64px;}
   .grid-3,.grid-2{grid-template-columns:1fr;}
   .subpage{padding:22px 16px 90px;}
+  #chat-modal{padding:0;align-items:flex-end;}
+  .chat-modal{max-width:none;height:min(92dvh,760px);max-height:none;border-radius:22px 22px 0 0;}
 }
 </style>
 </head>
@@ -782,8 +809,33 @@ footer a{color:rgba(255,255,255,.6);}
   <div class="modal" id="feedback-body"></div>
 </div>
 
+<!-- ================= CHAT DEL VIAJE ================= -->
+<div class="modal-backdrop hidden" id="chat-modal" onclick="closeDriverChat(event)">
+  <section class="modal chat-modal" role="dialog" aria-modal="true" aria-labelledby="chat-title" onclick="event.stopPropagation()">
+    <header class="chat-head">
+      <div class="driver-avatar" id="chat-driver-avatar">C</div>
+      <div class="chat-head-copy">
+        <strong id="chat-title">Conductor</strong>
+        <span><i class="chat-online-dot"></i> Chat del viaje · asistencia IA activa</span>
+      </div>
+      <button class="chat-close" type="button" onclick="closeDriverChat()" aria-label="Cerrar chat">×</button>
+    </header>
+    <div class="chat-context" id="chat-context">Viaje en curso</div>
+    <div class="chat-messages" id="chat-messages" aria-live="polite"></div>
+    <div class="chat-quick" aria-label="Mensajes rápidos">
+      <button type="button" onclick="useQuickMessage('Ya estoy en el punto de recogida')">Ya estoy aquí</button>
+      <button type="button" onclick="useQuickMessage('¿Cuánto falta para que llegues?')">¿Cuánto falta?</button>
+      <button type="button" onclick="useQuickMessage('Confírmame el vehículo y la placa')">Ver placa</button>
+    </div>
+    <form class="chat-compose" onsubmit="sendChatMessage(event)">
+      <input id="chat-input" maxlength="300" autocomplete="off" placeholder="Escribe un mensaje…" aria-label="Mensaje para el chat">
+      <button class="chat-send" id="chat-send" type="submit" aria-label="Enviar mensaje">➤</button>
+    </form>
+  </section>
+</div>
+
 <!-- ================= ADMIN ================= -->
-<div id="admin" class="hidden" style="position:fixed;inset:0;background:var(--crema);z-index:150;overflow:auto;">
+<div id="admin" class="hidden" style="position:fixed;inset:0;background:var(--crema);z-index:3000;overflow:auto;">
   <div class="container" style="padding:40px 24px;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;">
       <h2 style="color:var(--verde-oscuro);margin:0;">Panel administrativo — Punto U</h2>
@@ -1034,25 +1086,27 @@ function spawnNearbyVehicles(lat,lng){
 let geoTimeout;
 function onDestInput(val){
   clearTimeout(geoTimeout);
-  const box = document.getElementById('dest-suggestions');
-  if(!val || val.length<3){ if(box) box.innerHTML=''; return; }
+  const boxes = ['dest-suggestions','dest-suggestions-m'].map(id=>document.getElementById(id)).filter(Boolean);
+  if(!val || val.length<3){ boxes.forEach(box=>box.innerHTML=''); return; }
   geoTimeout = setTimeout(async ()=>{
     try{
       const url = `https://nominatim.openstreetmap.org/search?format=json&limit=5&q=${encodeURIComponent(val)}&viewbox=${UNI.lng-0.2},${UNI.lat+0.2},${UNI.lng+0.2},${UNI.lat-0.2}&bounded=0`;
       const res = await fetch(url,{headers:{'Accept':'application/json'}});
       const data = await res.json();
-      if(!box) return;
-      if(!data.length){ box.innerHTML = `<div>Sin resultados</div>`; return; }
-      box.innerHTML = data.map((d,i)=>`<div onclick="pickSuggestion(${i})">${d.display_name}</div>`).join('');
+      if(!data.length){ boxes.forEach(box=>box.innerHTML = `<div>Sin resultados</div>`); return; }
+      boxes.forEach(box=>box.innerHTML = data.map((d,i)=>`<div onclick="pickSuggestion(${i})">${d.display_name}</div>`).join(''));
       window._suggestions = data;
     }catch(e){
-      if(box) box.innerHTML = `<div>No pudimos buscar el destino.</div>`;
+      boxes.forEach(box=>box.innerHTML = `<div>No pudimos buscar el destino.</div>`);
     }
   }, 450);
 }
 function pickSuggestion(i){
   const d = window._suggestions[i];
-  document.getElementById('dest-suggestions').innerHTML='';
+  ['dest-suggestions','dest-suggestions-m'].forEach(id=>{
+    const box = document.getElementById(id);
+    if(box) box.innerHTML='';
+  });
   setDestination(parseFloat(d.lat), parseFloat(d.lon), d.display_name.split(',')[0]);
   const input = document.getElementById('dest-input');
   if(input) input.value = d.display_name.split(',')[0];
@@ -1268,7 +1322,7 @@ function startTracking(){
         <div><div class="driver-name">${state.driver.name}</div><div class="driver-meta">${state.driver.car} · ${state.driver.plate}</div></div>
       </div>
       <div class="track-actions">
-        <button class="btn btn-ghost" style="flex:1;" onclick="alert('Función de contacto simulada en modo demo.')">Contactar</button>
+        <button class="btn btn-ghost" style="flex:1;" onclick="openDriverChat()">💬 Contactar</button>
         <button class="btn btn-outline" style="flex:1;" onclick="cancelTrip()">Cancelar viaje</button>
       </div>
     </div>`;
@@ -1324,6 +1378,162 @@ function runTripSimulation(){
       document.getElementById('eta-text') && (document.getElementById('eta-text').textContent = `${String(remainMin).padStart(2,'0')} min`);
     }
   },1000);
+}
+
+/* ================= CHAT DEL VIAJE ================= */
+const chatState = {messages:[], busy:false};
+
+function chatTripStatus(){
+  const labels = {
+    DRIVER_ASSIGNED:'Conductor asignado',
+    DRIVER_ARRIVING:'Tu conductor está en camino',
+    DRIVER_ARRIVED:'Tu conductor llegó al punto de recogida',
+    TRIP_STARTED:'Viaje en curso',
+    TRIP_COMPLETED:'Viaje completado',
+    TRIP_CANCELLED:'Viaje cancelado'
+  };
+  return labels[state.tripStatus] || 'Viaje activo';
+}
+
+function openDriverChat(){
+  const driver = state.driver || DRIVERS[0];
+  document.getElementById('chat-driver-avatar').textContent = driver.name.charAt(0);
+  document.getElementById('chat-title').textContent = driver.name;
+  document.getElementById('chat-context').textContent = `${chatTripStatus()} · ${driver.car} · ${driver.plate}`;
+  if(!chatState.messages.length){
+    chatState.messages.push({
+      role:'assistant',
+      content:`Hola, soy el asistente de viaje asignado a ${driver.name} Puedo ayudarte con su llegada, el vehículo, la placa y los datos de tu trayecto.`
+    });
+  }
+  renderChatMessages();
+  document.getElementById('chat-modal').classList.remove('hidden');
+  setTimeout(()=>document.getElementById('chat-input').focus(),80);
+}
+
+function closeDriverChat(event){
+  if(event && event.target !== document.getElementById('chat-modal')) return;
+  document.getElementById('chat-modal').classList.add('hidden');
+}
+
+function chatTime(){
+  return new Date().toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'});
+}
+
+function renderChatMessages(){
+  const box = document.getElementById('chat-messages');
+  box.innerHTML = '';
+  chatState.messages.forEach(message=>{
+    const bubble = document.createElement('div');
+    bubble.className = `chat-message ${message.role === 'user' ? 'user' : 'assistant'}`;
+    const text = document.createElement('span');
+    text.textContent = message.content;
+    const time = document.createElement('small');
+    time.textContent = message.time || chatTime();
+    bubble.append(text,time);
+    box.appendChild(bubble);
+  });
+  if(chatState.busy){
+    const typing = document.createElement('div');
+    typing.className = 'chat-typing';
+    typing.textContent = '•••';
+    typing.setAttribute('aria-label','Escribiendo respuesta');
+    box.appendChild(typing);
+  }
+  box.scrollTop = box.scrollHeight;
+}
+
+function useQuickMessage(message){
+  const input = document.getElementById('chat-input');
+  input.value = message;
+  input.focus();
+}
+
+function tripContext(){
+  const driver = state.driver || DRIVERS[0];
+  return {
+    status:chatTripStatus(),
+    driver:{name:driver.name,rating:driver.rating,vehicle:driver.car,color:driver.color,plate:driver.plate},
+    service:state.selectedVehicle === 'van' ? 'Punto Van de 7 puestos' : 'Punto Carro',
+    origin:state.origin?.label || 'Punto de recogida seleccionado',
+    destination:state.destination?.label || 'Universidad',
+    estimatedMinutes:state.routeMin || null
+  };
+}
+
+function localTravelReply(message){
+  const text = message.toLocaleLowerCase('es-CO');
+  const context = tripContext();
+  const driver = context.driver;
+  if(/hola|buenas|buenos d[ií]as|buenas tardes|buenas noches/.test(text)){
+    return `¡Hola! Estoy aquí para ayudarte con el viaje de ${driver.name}. ¿Quieres consultar el tiempo de llegada, la placa o el punto de recogida?`;
+  }
+  if(/cu[aá]nto falta|tiempo|demora|llega|d[oó]nde (est[aá]|va)|ubicaci[oó]n/.test(text)){
+    if(state.tripStatus === 'DRIVER_ARRIVED') return `${driver.name} ya llegó al punto de recogida. Busca el ${driver.vehicle} ${driver.color}, placa ${driver.plate}.`;
+    if(state.tripStatus === 'TRIP_STARTED') return `El viaje está en curso hacia ${context.destination}. Puedes seguir la ubicación directamente en el mapa.`;
+    const eta = document.getElementById('eta-text')?.textContent || 'pocos minutos';
+    return `${driver.name} está en camino y la llegada estimada que muestra el viaje es ${eta}. Puedes seguir el vehículo en el mapa.`;
+  }
+  if(/placa|carro|veh[ií]culo|color|van/.test(text)){
+    return `Tu servicio es ${context.service}. Conduce ${driver.name} en un ${driver.vehicle} ${driver.color}, placa ${driver.plate}.`;
+  }
+  if(/punto|recog|direcci[oó]n|origen|aqu[ií]|ac[aá]/.test(text)){
+    return `El punto de recogida registrado es “${context.origin}”. Si estás ahí, envía “Ya estoy en el punto” para dejarlo confirmado en el chat.`;
+  }
+  if(/destino|universidad|icesi|ad[oó]nde/.test(text)){
+    return `El destino registrado es “${context.destination}”. Si necesitas cambiarlo, vuelve al viaje antes de iniciarlo y selecciona una nueva dirección.`;
+  }
+  if(/cancel|no voy|no puedo/.test(text)){
+    return 'Puedes cerrar este chat y usar “Cancelar viaje” en la pantalla del recorrido. Revisa los datos antes de confirmar la cancelación.';
+  }
+  if(/precio|pago|cobro|tarifa|cuesta/.test(text)){
+    return 'El valor vigente aparece en el resumen de tu viaje o plan. Este chat no cambia ni inventa cobros; si ves una diferencia, repórtala desde “Mi perfil”.';
+  }
+  if(/emergencia|peligro|ayuda urgente|accidente/.test(text)){
+    return 'Si existe un riesgo inmediato, contacta directamente a los servicios de emergencia y comparte tu ubicación con una persona de confianza. No dependas solo de este chat.';
+  }
+  if(/ya estoy|estoy esperando|llegu[eé]/.test(text)){
+    return `Tu aviso quedó registrado en el chat del viaje. Mantente atento al ${driver.vehicle} ${driver.color}, placa ${driver.plate}, en “${context.origin}”.`;
+  }
+  return 'Puedo ayudarte con información concreta de este viaje: ubicación y tiempo de llegada, conductor, vehículo, placa, recogida, destino, pago o cancelación. Dime cuál necesitas revisar.';
+}
+
+async function sendChatMessage(event){
+  event.preventDefault();
+  const input = document.getElementById('chat-input');
+  const message = input.value.trim();
+  if(!message || chatState.busy) return;
+
+  chatState.messages.push({role:'user',content:message,time:chatTime()});
+  input.value = '';
+  chatState.busy = true;
+  document.getElementById('chat-send').disabled = true;
+  renderChatMessages();
+
+  let reply;
+  try{
+    const response = await fetch('/api/chat',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        message,
+        history:chatState.messages.slice(0,-1).slice(-8).map(({role,content})=>({role,content})),
+        trip:tripContext()
+      })
+    });
+    if(!response.ok) throw new Error('Asistente remoto no disponible');
+    const data = await response.json();
+    reply = typeof data.reply === 'string' && data.reply.trim() ? data.reply.trim() : null;
+    if(!reply) throw new Error('Respuesta vacía');
+  }catch(error){
+    reply = localTravelReply(message);
+  }
+
+  chatState.busy = false;
+  document.getElementById('chat-send').disabled = false;
+  chatState.messages.push({role:'assistant',content:reply,time:chatTime()});
+  renderChatMessages();
+  input.focus();
 }
 
 function completeTrip(){
